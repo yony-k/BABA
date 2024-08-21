@@ -2,7 +2,7 @@ spring:
   application:
     name: baba
   datasource:
-    url: jdbc:h2:mem:db
+    url: jdbc:h2:mem:baba-db
     driver-class-name: org.h2.Driver
     username: sa
     password:
