@@ -69,16 +69,22 @@ spotless {
     }
 }
 
+// Git hooks 업데이트 작업
 tasks.register('updateGitHooks', Copy) {
     from 'script/pre-commit'
     into '.git/hooks'
 }
 
+// makeGitHooksExecutable 작업을 OS에 따라 실행 여부 결정
 tasks.register('makeGitHooksExecutable', Exec) {
+    // Windows가 아닌 경우에만 실행
+    onlyIf { !System.properties['os.name'].toLowerCase().contains('windows') }
+
     commandLine 'chmod', '+x', '.git/hooks/pre-commit'
     dependsOn 'updateGitHooks'
 }
 
+// compileJava 작업이 실행되기 전에 makeGitHooksExecutable 작업을 실행
 tasks.named('compileJava') {
     dependsOn 'makeGitHooksExecutable'
 }
