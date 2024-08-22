@@ -2,7 +2,7 @@ package org.example.baba.domain;
 
 import jakarta.persistence.*;
 
-import org.example.baba.domain.enums.UserRole;
+import org.example.baba.domain.enums.MemberRole;
 
 import lombok.*;
 
@@ -10,15 +10,15 @@ import lombok.*;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "member")
+public class Member {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long userId;
+  private Long memberId;
 
   @Column(unique = true, nullable = false)
-  private String username;
+  private String memberName;
 
   @Column(unique = true, nullable = false)
   private String email;
@@ -27,14 +27,15 @@ public class User {
   private String password;
 
   @Enumerated(EnumType.STRING)
-  private UserRole role;
+  private MemberRole role;
 
   @Builder
-  public User(Long userId, String username, String email, String password, UserRole userRole) {
-    this.userId = userId;
-    this.username = username;
+  public Member(
+      Long memberId, String memberName, String email, String password, MemberRole memberRole) {
+    this.memberId = memberId;
+    this.memberName = memberName;
     this.email = email;
     this.password = password;
-    this.role = userRole;
+    this.role = memberRole;
   }
 }
