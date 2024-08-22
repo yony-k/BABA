@@ -3,7 +3,7 @@ INSERT INTO MEMBER (MEMBER_ID, EMAIL, MEMBER_NAME, PASSWORD, ROLE) VALUES
 (2, 'minjun@gmail.com', '김민준', '{noop}1234', 'USER'),
 (3, 'alice@example.com', '엘리스', '{noop}1234', 'ADMIN');
 
-INSERT INTO POST (ID, CONTENT, LIKE_COUNT, SHARE_COUNT, TITLE, TYPE, USER_ID, VIEW_COUNT) VALUES
+INSERT INTO POST (ID, CONTENT, LIKE_COUNT, SHARE_COUNT, TITLE, TYPE, MEMBER_ID, VIEW_COUNT) VALUES
 (1, '와, 여기가 미국이구나!!', 10, 2, '미국 여행기!', 'INSTAGRAM', 1, 150),
 (2, '미국 햄버거 짠데 맛있네? ㅋㅋ', 25, 5, '미국 햄버거', 'INSTAGRAM', 1, 230),
 (3, '여기 카페 에스프레소 굿굿', 15, 3, '에스프레소', 'TWITTER', 2, 180),
