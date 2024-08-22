@@ -10,15 +10,23 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/post")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostController {
 
   private final PostService postService;
 
-  @PutMapping("/{postId}/like")
-  public ResponseEntity<Void> likePost(@PathVariable Long postId, @RequestParam SNSType type) {
-    postService.likePost(postId, type);
+  @PutMapping("/{postId}/like/{type}")
+  public ResponseEntity<Void> likePost(@PathVariable Long postId, @PathVariable String type) {
+    SNSType snsType = SNSType.valueOf(type.toUpperCase());
+    postService.likePost(postId, snsType);
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/{postId}/share/{type}")
+  public ResponseEntity<Void> sharePost(@PathVariable Long postId, @PathVariable String type) {
+    SNSType snsType = SNSType.valueOf(type.toUpperCase());
+    postService.sharePost(postId, snsType);
     return ResponseEntity.ok().build();
   }
 }
