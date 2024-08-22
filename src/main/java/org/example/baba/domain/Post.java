@@ -36,4 +36,8 @@ public class Post {
   public void like() {
     this.likeCount++;
   }
+
+  public void share() {
+    this.shareCount++;
+  }
 }

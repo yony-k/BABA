@@ -24,4 +24,13 @@ public class PostService {
             .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
     post.like();
   }
+
+  @Transactional
+  public void sharePost(Long postId, SNSType type) {
+    Post post =
+        postRepository
+            .findByIdAndType(postId, type)
+            .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
+    post.share();
+  }
 }
