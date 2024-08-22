@@ -1,5 +1,6 @@
 package org.example.baba.service;
 
+import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.domain.Post;
 import org.example.baba.domain.enums.SNSType;
 import org.example.baba.exception.CustomException;
@@ -32,5 +33,17 @@ public class PostService {
             .findByIdAndType(postId, type)
             .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
     post.share();
+  }
+
+  @Transactional
+  public PostDetailResponseDto getPostDetail(Long postId) {
+    Post post =
+        postRepository
+            .findById(postId)
+            .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
+
+    post.view();
+    postRepository.save(post);
+    return PostDetailResponseDto.from(post);
   }
 }
