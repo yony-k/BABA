@@ -58,4 +58,19 @@ public class ValidAnotaionTest {
       assertTrue(violation.getMessage().contains("비밀번호는 10자 이상이어야합니다."), "메세지가 포함되어야합니다.");
     }
   }
+
+  @Test
+  @DisplayName("입력되지 않은 비밀번호")
+  public void inValidPasswordNull() {
+    // given
+    RegisterDTO registerDTO = new RegisterDTO("smith12", null, "smith12@gmail.com");
+
+    // when
+    Set<ConstraintViolation<RegisterDTO>> result = validator.validate(registerDTO);
+
+    // then
+    for (ConstraintViolation<RegisterDTO> violation : result) {
+      assertTrue(violation.getMessage().contains("비밀번호를 입력해주세요."), "메세지가 포함되어야합니다.");
+    }
+  }
 }
