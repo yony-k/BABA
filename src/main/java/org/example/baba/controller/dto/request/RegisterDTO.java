@@ -5,6 +5,15 @@ import jakarta.validation.constraints.NotBlank;
 
 import org.example.baba.common.anotation.ValidPassword;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class RegisterDTO {
   @NotBlank(message = "아이디를 입력하세요.")
   String username;
