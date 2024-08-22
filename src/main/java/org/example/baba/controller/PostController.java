@@ -17,14 +17,16 @@ public class PostController {
   private final PostService postService;
 
   @PutMapping("/{postId}/like/{type}")
-  public ResponseEntity<Void> likePost(@PathVariable Long postId, @PathVariable SNSType type) {
-    postService.likePost(postId, type);
+  public ResponseEntity<Void> likePost(@PathVariable Long postId, @PathVariable String type) {
+    SNSType snsType = SNSType.valueOf(type.toUpperCase());
+    postService.likePost(postId, snsType);
     return ResponseEntity.ok().build();
   }
 
   @PutMapping("/{postId}/share/{type}")
-  public ResponseEntity<Void> sharePost(@PathVariable Long postId, @PathVariable SNSType type) {
-    postService.sharePost(postId, type);
+  public ResponseEntity<Void> sharePost(@PathVariable Long postId, @PathVariable String type) {
+    SNSType snsType = SNSType.valueOf(type.toUpperCase());
+    postService.sharePost(postId, snsType);
     return ResponseEntity.ok().build();
   }
 }
