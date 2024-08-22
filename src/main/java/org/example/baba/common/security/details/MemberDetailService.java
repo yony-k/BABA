@@ -19,11 +19,11 @@ public class MemberDetailService implements UserDetailsService {
   private final MemberRepository repository;
 
   @Override
-  public UserDetails loadUserByUsername(String memberName) {
+  public UserDetails loadUserByUsername(String email) {
 
     Member member =
         repository
-            .findByEmail(memberName)
+            .findByEmail(email)
             .orElseThrow(() -> new CustomException(AuthorizedExceptionType.UNAUTHENTICATED));
 
     return new AuthUser(member);

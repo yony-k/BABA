@@ -1,7 +1,7 @@
 INSERT INTO MEMBER (MEMBER_ID, EMAIL, MEMBER_NAME, PASSWORD, ROLE) VALUES
-(1, 'minji@gmail.com', '김민지', '1234', 'USER'),
-(2, 'minjun@gmail.com', '김민준', '1234', 'USER'),
-(3, 'alice@example.com', '엘리스', '1234', 'ADMIN');
+(1, 'minji@gmail.com', '김민지', '{noop}1234', 'USER'),
+(2, 'minjun@gmail.com', '김민준', '{noop}1234', 'USER'),
+(3, 'alice@example.com', '엘리스', '{noop}1234', 'ADMIN');
 
 INSERT INTO POST (ID, CONTENT, LIKE_COUNT, SHARE_COUNT, TITLE, TYPE, USER_ID, VIEW_COUNT) VALUES
 (1, '와, 여기가 미국이구나!!', 10, 2, '미국 여행기!', 'INSTAGRAM', 1, 150),
