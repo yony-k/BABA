@@ -21,10 +21,9 @@ public class JwtProvider {
   private final JwtProperties jwtProperties;
 
   // 액세스 JWT 토큰 생성
-  public String generateToken(String subject, Long id, String authorities) {
+  public String generateAccessToken(String subject, Long id, String authorities) {
     // 액세스 토큰 만료시간 설정
     Date expiration = getAccessExpiration();
-
     // 토큰 생성 후 반환
     return Jwts.builder()
         .subject(subject)

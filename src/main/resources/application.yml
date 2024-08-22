@@ -24,3 +24,9 @@ jwt:
   refresh-token-validity-in-seconds: 259200
   access-header: Authentication
   refresh-header: Refresh
+
+cookie:
+  limit-time: 259200
+  accepted-url: '/api/auth/reissue'
+  cookie-name: Refresh
+  domain: localhost
