@@ -73,4 +73,21 @@ public class ValidAnotaionTest {
       assertTrue(violation.getMessage().contains("비밀번호를 입력해주세요."), "메세지가 포함되어야합니다.");
     }
   }
+
+  @Test
+  @DisplayName("정규식에 부합하지 않는 비밀번호")
+  public void inValidPasswordRegexp() {
+    // given
+    RegisterDTO registerDTO = new RegisterDTO("smith12", "Valid12345", "smith12@gmail.com");
+
+    // when
+    Set<ConstraintViolation<RegisterDTO>> result = validator.validate(registerDTO);
+
+    // then
+    for (ConstraintViolation<RegisterDTO> violation : result) {
+      assertTrue(
+          violation.getMessage().contains("비밀번호는 숫자, 문자, 특수문자가 2가지 이상 포함되어야 합니다."),
+          "메세지가 포함되어야합니다.");
+    }
+  }
 }
