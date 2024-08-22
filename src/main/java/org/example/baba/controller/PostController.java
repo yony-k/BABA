@@ -1,5 +1,6 @@
 package org.example.baba.controller;
 
+import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.domain.enums.SNSType;
 import org.example.baba.service.PostService;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +29,11 @@ public class PostController {
     SNSType snsType = SNSType.valueOf(type.toUpperCase());
     postService.sharePost(postId, snsType);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/{postId}")
+  public ResponseEntity<PostDetailResponseDto> getPostDetail(@PathVariable Long postId) {
+    PostDetailResponseDto post = postService.getPostDetail(postId);
+    return ResponseEntity.ok(post);
   }
 }
