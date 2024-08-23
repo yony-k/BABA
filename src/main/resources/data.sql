@@ -14,11 +14,13 @@ INSERT INTO HASH_TAG (ID, TAG_NAME) VALUES
 (2, '맛집'),
 (3, '카페'),
 (4, '오운완'),
-(5, '코딩');
+(5, '코딩'),
+(6, '김민지');
 
 INSERT INTO POST_HASH_TAG_MAP (ID, HASHTAG_ID, POST_ID) VALUES
 (1, 1, 1),
 (2, 2, 1),
 (3, 2, 2),
 (4, 3, 3),
-(5, 4, 4);
+(5, 4, 4),
+(6, 6, 4);
