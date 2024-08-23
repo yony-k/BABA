@@ -20,10 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 
   private final MemberService registerService;
+  private final MemberService memberService;
 
   @PostMapping
   public ResponseEntity<String> registerRequest(@Valid @RequestBody RegisterDTO registerDTO) {
-
-    return null;
+    memberService.isDuplicated(registerDTO);
+    memberService.sendApprovalCode(registerDTO);
+    return ResponseEntity.ok("인증 코드가 발송되었습니다.");
   }
 }

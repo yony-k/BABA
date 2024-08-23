@@ -5,16 +5,20 @@ import jakarta.validation.constraints.NotBlank;
 
 import org.example.baba.common.anotation.ValidPassword;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.*;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
+@EqualsAndHashCode
 public class RegisterDTO {
+
+  private static final ObjectMapper objectMapper = new ObjectMapper();
+
   @NotBlank(message = "아이디를 입력해주세요.")
   String memberName;
 
@@ -25,4 +29,20 @@ public class RegisterDTO {
   @NotBlank(message = "이메일을 입력해주세요.")
   @Email(message = "올바른 이메일 형식이 아닙니다.")
   String email;
+
+  public String toJson() {
+    try {
+      return objectMapper.writeValueAsString(this);
+    } catch (Exception e) {
+      throw new RuntimeException("RegisterDTO 의 toJson 오류", e);
+    }
+  }
+
+  public static RegisterDTO fromJson(String json) {
+    try {
+      return objectMapper.readValue(json, RegisterDTO.class);
+    } catch (Exception e) {
+      throw new RuntimeException("RegisterDTO 의 fromJson 오류", e);
+    }
+  }
 }
