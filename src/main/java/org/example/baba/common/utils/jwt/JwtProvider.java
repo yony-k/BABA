@@ -78,4 +78,8 @@ public class JwtProvider {
     now.add(Calendar.SECOND, expirationMinutes);
     return now;
   }
+
+  public Integer getRefreshTokenValidityInSeconds() {
+    return jwtProperties.getRefreshTokenValidityInSeconds();
+  }
 }
