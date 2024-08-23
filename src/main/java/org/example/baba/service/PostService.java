@@ -121,7 +121,6 @@ public class PostService {
       String orderBy,
       int page,
       int pageCount) {
-
     Pageable pageable = PageRequest.of(page, pageCount, getSort(orderBy));
 
     Page<Post> posts = postRepository.findPosts(hashtag, type, search, pageable);

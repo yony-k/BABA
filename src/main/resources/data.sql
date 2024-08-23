@@ -1,24 +1,39 @@
+-- MEMBER 테이블 데이터 삽입 (5명)
 INSERT INTO MEMBER (MEMBER_ID, EMAIL, MEMBER_NAME, PASSWORD, ROLE) VALUES
-(1, 'minji@gmail.com', '김민지', '{noop}1234', 'USER'),
-(2, 'minjun@gmail.com', '김민준', '{noop}1234', 'USER'),
-(3, 'alice@example.com', '엘리스', '{noop}1234', 'ADMIN');
+(1, 'kimminji@example.com', '김민지', '{noop}password1', 'USER'),
+(2, 'kimyuna@example.com', '김유나', '{noop}password2', 'USER'),
+(3, 'leejinsuk@example.com', '이진석', '{noop}password3', 'USER'),
+(4, 'parkjihoon@example.com', '박지훈', '{noop}password4', 'USER'),
+(5, 'choisoo@example.com', '최수영', '{noop}password5', 'USER');
 
-INSERT INTO POST (ID, CONTENT, LIKE_COUNT, SHARE_COUNT, TITLE, TYPE, MEMBER_ID, VIEW_COUNT) VALUES
-(1, '와, 여기가 미국이구나!!', 10, 2, '미국 여행기!', 'INSTAGRAM', 1, 150),
-(2, '미국 햄버거 짠데 맛있네? ㅋㅋ', 25, 5, '미국 햄버거', 'INSTAGRAM', 1, 230),
-(3, '여기 카페 에스프레소 굿굿', 15, 3, '에스프레소', 'TWITTER', 2, 180),
-(4, '오운완 !!', 8, 1, 'Daily Post', 'INSTAGRAM', 3, 120);
 
+-- POST 테이블 데이터 삽입 (20개)
+INSERT INTO POST (ID, CONTENT, LIKE_COUNT, SHARE_COUNT, TITLE, TYPE, MEMBER_ID, VIEW_COUNT, CREATED_AT, UPDATED_AT) VALUES
+(1, '아침에 남산 타워에서 보는 서울 즥이네!', 2, 0, '남산', 'INSTAGRAM', 1, 4, '2024-07-21T10:00:00', '2024-08-21T10:00:00'),
+(2, '여행 중 찍은 맛있는 음식 사진입니다.', 3, 1, '여행은 음식이지', 'INSTAGRAM', 2, 33, '2024-06-22T11:00:00', '2024-07-22T11:00:00'),
+(3, '오늘의 바디 체크', 15, 2, '운동 끝', 'FACEBOOK', 3, 250, '2024-08-03T12:00:00', '2024-08-20T12:00:00'),
+(4, '강릉 카페 뷰는 쩐다', 5, 8, '강릉 카페', 'INSTAGRAM', 4, 15, '2024-08-04T13:00:00', null),
+(5, '올림픽 보고 자극받아서 헬스 조짐', 17, 5, '맛있다', 'TWITTER', 5, 57, '2024-08-20T14:00:00', null),
+(6, '애들 데리고 하츄핑 보러왔다. 재우고 운동옴.', 77, 11, '하츄핑 너 뭔데?', 'INSTAGRAM', 5, 100, '2024-08-20T14:00:00', null);
+
+
+-- HASH_TAG 테이블 데이터 삽입 (20개)
 INSERT INTO HASH_TAG (ID, TAG_NAME) VALUES
-(1, '여행'),
-(2, '맛집'),
-(3, '카페'),
-(4, '오운완'),
-(5, '코딩');
+(1, '오운완'),
+(2, '갓생'),
+(3, '육퇴'),
+(4, '소통해요'),
+(5, '먹스타그램');
 
-INSERT INTO POST_HASH_TAG_MAP (ID, HASHTAG_ID, POST_ID) VALUES
+
+-- POST_HASH_TAG_MAP 테이블 데이터 삽입 (포스트와 해시태그 매핑)
+INSERT INTO POST_HASH_TAG_MAP (ID, POST_ID, HASHTAG_ID) VALUES
 (1, 1, 1),
-(2, 2, 1),
-(3, 2, 2),
-(4, 3, 3),
-(5, 4, 4);
+(2, 1, 2),
+(3, 2, 5),
+(4, 3, 1),
+(5, 3, 4),
+(6, 5, 1),
+(7, 6, 3),
+(8, 6, 1),
+(9, 6, 2);
