@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -29,12 +28,8 @@ public class RedisConfig {
     // RedisConnectionFactory 와 연결
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
-
-    // 키 직렬화
     redisTemplate.setKeySerializer(new StringRedisSerializer());
-
-    // RegiterDTO 저장을 위해 json 형식으로 값 직렬화
-    redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
+    redisTemplate.setValueSerializer(new StringRedisSerializer());
     return redisTemplate;
   }
 }

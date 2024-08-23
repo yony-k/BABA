@@ -32,7 +32,11 @@ public class RegisterServiceTest {
     // given
     // RegisterDTO 생성
     RegisterDTO registerDTO =
-        RegisterDTO.builder().memberName("김민지").password("1234").email("minji12@gmail.com").build();
+        RegisterDTO.builder()
+            .memberName("김민지")
+            .password("Valid1234!")
+            .email("minji12@gmail.com")
+            .build();
 
     // existsByMemberName의 메소드 사용시 리턴값 설정
     when(memberRepository.existsByMemberName("김민지")).thenReturn(true);
@@ -57,7 +61,11 @@ public class RegisterServiceTest {
     // given
     // RegisterDTO 생성
     RegisterDTO registerDTO =
-        RegisterDTO.builder().memberName("김성민").password("1234").email("minji@gmail.com").build();
+        RegisterDTO.builder()
+            .memberName("김성민")
+            .password("Valid1234!")
+            .email("minji@gmail.com")
+            .build();
 
     // existsByMemberName의 메소드 사용시 리턴값 설정
     when(memberRepository.existsByEmail("minji@gmail.com")).thenReturn(true);
@@ -81,7 +89,11 @@ public class RegisterServiceTest {
     // given
     // RegisterDTO 생성
     RegisterDTO registerDTO =
-        RegisterDTO.builder().memberName("김성민").password("1234").email("sungmin@gmail.com").build();
+        RegisterDTO.builder()
+            .memberName("김성민")
+            .password("Valid1234!")
+            .email("sungmin@gmail.com")
+            .build();
 
     // existsByMemberName, existsByEmail 사용 시 리턴값 지정
     when(memberRepository.existsByMemberName("김성민")).thenReturn(false);
