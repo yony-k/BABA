@@ -50,4 +50,29 @@ public class RegisterServiceTest {
     // 예외 메세지 확인
     assertEquals(RegisterExceptionType.DUPLICATED_MEMBER_NAME.getMessage(), thrown.getMessage());
   }
+
+  @Test
+  @DisplayName("중복된 이메일 실패 케이스")
+  public void duplicatedEmail() {
+
+    // given
+    // RegisterDTO 생성
+    RegisterDTO registerDTO =
+        RegisterDTO.builder().memberName("김민지").password("1234").email("minji@gmail.com").build();
+
+    // existsByMemberName의 메소드 사용시 리턴될 값 설정
+    when(memberRepository.existsByEmail("minji@gmail.com")).thenReturn(Boolean.TRUE);
+
+    // when & then
+    // memberService의 메소드 사용시 발생할 예외 클래스 확인
+    CustomException thrown =
+        assertThrows(
+            CustomException.class,
+            () -> {
+              memberService.isDuplicated(registerDTO);
+            });
+
+    // 예외 메세지 확인
+    assertEquals(RegisterExceptionType.DUPLICATED_EMAIL.getMessage(), thrown.getMessage());
+  }
 }
