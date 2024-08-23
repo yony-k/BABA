@@ -15,7 +15,10 @@ spring:
       ddl-auto: create
     defer-datasource-initialization: true
     show-sql: true
-
+  data:
+    redis:
+      host: localhost
+      port: 6379
 jwt:
   prefix: 'Bearer '
   secret-key: ${JWT}

@@ -5,8 +5,10 @@ import java.util.Collection;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.*;
 
+import org.example.baba.common.redis.RedisRepository;
 import org.example.baba.common.security.details.AuthUser;
 import org.example.baba.common.security.dto.LoginDto;
+import org.example.baba.common.security.dto.MemberInfo;
 import org.example.baba.common.utils.cookie.CookieUtils;
 import org.example.baba.common.utils.jwt.*;
 import org.example.baba.common.utils.translator.ObjectMapperUtils;
@@ -26,6 +28,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   private final JwtProvider jwtProvider;
   private final JwtProperties jwtProperties;
   private final CookieUtils cookieUtils;
+  private final RedisRepository repository;
   private final ObjectMapperUtils objectMapper;
 
   // 로그인 요청 데이터를 받아서 토큰 생성하고 인증 시도
@@ -51,10 +54,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String accessToken = createAccessToken(authUser);
     String refreshToken = createRefreshToken(authUser);
 
+    repository.save(
+        refreshToken,
+        objectMapper.toStringValue(createUserInfo(authUser)),
+        jwtProperties.getRefreshTokenValidityInSeconds());
+
     // 응답 헤더에 액세스 토큰 설정
     response.setHeader(HttpHeaders.AUTHORIZATION, jwtProperties.getPrefix() + accessToken);
     // 응답 쿠키에 리프레시 토큰 추가
     response.addCookie(cookieUtils.createCookie(refreshToken));
+  }
+
+  // 사용자 정보를 담은 객체 생성
+  private MemberInfo createUserInfo(AuthUser authUser) {
+    return new MemberInfo(authUser.getUsername(), toTrans(authUser.getAuthorities()));
   }
 
   // 액세스 토큰 생성
