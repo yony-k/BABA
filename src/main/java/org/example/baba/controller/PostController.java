@@ -1,6 +1,9 @@
 package org.example.baba.controller;
 
+import java.util.List;
+
 import org.example.baba.controller.dto.response.PostDetailResponseDto;
+import org.example.baba.controller.dto.response.PostSimpleResponseDto;
 import org.example.baba.domain.enums.SNSType;
 import org.example.baba.service.PostService;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +38,18 @@ public class PostController {
   public ResponseEntity<PostDetailResponseDto> getPostDetail(@PathVariable Long postId) {
     PostDetailResponseDto post = postService.getPostDetail(postId);
     return ResponseEntity.ok(post);
+  }
+
+  @GetMapping
+  public List<PostSimpleResponseDto> getPosts(
+      @RequestParam(required = false) String hashtag,
+      @RequestParam(required = false) SNSType type,
+      @RequestParam(required = false) String searchKeyword,
+      @RequestParam(defaultValue = "created_at") String orderBy,
+      @RequestParam(defaultValue = "title,content") String searchBy,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int pageCount) {
+
+    return postService.getPosts(hashtag, type, searchKeyword, orderBy, searchBy, page, pageCount);
   }
 }
