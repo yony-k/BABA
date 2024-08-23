@@ -28,5 +28,5 @@ INSERT INTO POST_HASH_TAG_MAP (ID, HASHTAG_ID, POST_ID) VALUES
 (4, 3, 3),
 (5, 4, 4),
 (6, 5, 5),
-(7, 6, 5);
-(8, 6, 4);
+(7, 6, 5),
+(8, 7, 4);
