@@ -20,11 +20,11 @@ public enum PostExceptionType implements ExceptionType {
 
   @Override
   public HttpStatus status() {
-    return null;
+    return this.status;
   }
 
   @Override
   public String message() {
-    return null;
+    return this.message;
   }
 }
