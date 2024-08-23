@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.example.baba.common.config.dsl.JwtFilterDsl;
 import org.example.baba.common.security.handler.AuthenticationEntryPointHandler;
 import org.example.baba.common.security.handler.LogoutSuccessCustomHandler;
+import org.example.baba.common.security.handler.VerificationAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +29,7 @@ public class SecurityConfig {
 
   private final JwtFilterDsl jwtFilterDsl;
   private final AuthenticationEntryPointHandler authenticationEntryPointHandler;
+  private final VerificationAccessDeniedHandler verificationAccessDeniedHandler;
   private final LogoutSuccessCustomHandler logoutSuccessCustomHandler;
 
   @Bean
@@ -40,7 +42,6 @@ public class SecurityConfig {
     http.with(jwtFilterDsl, JwtFilterDsl::build);
     http.headers(
         headerConfig -> headerConfig.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-
     http.authorizeHttpRequests(
             authorize ->
                 authorize
@@ -54,12 +55,14 @@ public class SecurityConfig {
         .httpBasic(AbstractHttpConfigurer::disable)
         // cors 관련 옵션 끄기
         .cors(cors -> cors.configurationSource(apiConfigurationSource()))
-        .csrf(AbstractHttpConfigurer::disable)
-        .exceptionHandling(
-            exception -> exception.authenticationEntryPoint(authenticationEntryPointHandler))
-        .logout(
-            logout ->
-                logout.logoutSuccessHandler(logoutSuccessCustomHandler).logoutUrl("/api/logout"));
+        .csrf(AbstractHttpConfigurer::disable);
+    http.exceptionHandling(
+        exception ->
+            exception
+                .authenticationEntryPoint(authenticationEntryPointHandler)
+                .accessDeniedHandler(verificationAccessDeniedHandler));
+    http.logout(
+        logout -> logout.logoutSuccessHandler(logoutSuccessCustomHandler).logoutUrl("/api/logout"));
     return http.build();
   }
 

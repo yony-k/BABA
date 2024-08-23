@@ -45,6 +45,8 @@ public class JwtFilterDsl extends AbstractHttpConfigurer<JwtFilterDsl, HttpSecur
     JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(provider, properties);
 
     // 필터 체인에 JWT 인증 필터를 추가하고, JWT 검증 필터를 JwtAuthenticationFilter보다 먼저 실행되도록 설정
+    // 정상작동하지 않는 문제
+
     builder
         .addFilter(jwtAuthenticationFilter)
         .addFilterBefore(jwtVerificationFilter, JwtAuthenticationFilter.class);
