@@ -45,11 +45,10 @@ public class MemberService {
     String memberKey = "temporary:" + registerDTO.getEmail();
 
     // 가입승인 코드 생성
-    // String code = generateRandomCode();
+    String code = generateRandomCode();
 
     // 가입승인 코드 키
-    // 테스트를 위한 하드코딩
-    String approvalKey = "approval:" + "123456";
+    String approvalKey = "approval:" + code;
 
     // 트랜잭션
     redisTemplate.execute(
