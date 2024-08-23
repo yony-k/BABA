@@ -37,6 +37,7 @@ public class PostService {
                   .findByIdAndType(postId, type)
                   .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
           post.like();
+          postRepository.save(post);
         });
   }
 
@@ -52,6 +53,7 @@ public class PostService {
                   .findByIdAndType(postId, type)
                   .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
           post.share();
+          postRepository.save(post);
         });
   }
 
