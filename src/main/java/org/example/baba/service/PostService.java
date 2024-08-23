@@ -99,7 +99,6 @@ public class PostService {
             .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
 
     post.view();
-    postRepository.save(post);
     return PostDetailResponseDto.from(post);
   }
 }
