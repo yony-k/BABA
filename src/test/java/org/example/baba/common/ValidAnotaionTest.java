@@ -45,7 +45,7 @@ public class ValidAnotaionTest {
   }
 
   @Test
-  @DisplayName("10자 이하인 비밀번호")
+  @DisplayName("10자 미만인 비밀번호")
   public void inValidPasswordToShort() {
     // given
     RegisterDTO registerDTO = new RegisterDTO("smith12", "Valid123!", "smith12@gmail.com");

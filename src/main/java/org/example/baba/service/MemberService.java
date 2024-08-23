@@ -12,8 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +22,6 @@ public class MemberService {
 
   private final MemberRepository memberRepository;
   private final RedisTemplate<String, Object> redisTemplate;
-  private ObjectMapper objectMapper;
 
   private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   private static final int CODE_LENGTH = 6;
@@ -46,14 +43,13 @@ public class MemberService {
   public void sendApprovalCode(RegisterDTO registerDTO) {
     // 임시 사용자 정보 키
     String memberKey = "temporary:" + registerDTO.getEmail();
-
     // 가입승인 코드 생성
     String code = generateRandomCode();
-
     // 가입승인 코드 키
     String approvalKey = "approval:" + code;
 
     // 트랜잭션
+    // redis에 임시 사용자 정보 저장 및 가입승인 코드 저장
     redisTemplate.execute(
         new SessionCallback<Object>() {
           @Override
@@ -65,9 +61,6 @@ public class MemberService {
               // redis에 가입승인 코드 저장
               operations.opsForValue().set(approvalKey, registerDTO.getEmail());
 
-              operations.expire(memberKey, 2, TimeUnit.HOURS);
-              operations.expire(approvalKey, 10, TimeUnit.MINUTES);
-
               return operations.exec();
             } catch (Exception e) {
               operations.discard();
@@ -75,6 +68,11 @@ public class MemberService {
             }
           }
         });
+
+    // 만료시간 설정(TTL은 트랜잭션에 포함되지 않아서 따로 뺌)
+    redisTemplate.expire(memberKey, 2, TimeUnit.HOURS);
+    redisTemplate.expire(approvalKey, 10, TimeUnit.MINUTES);
+
     // 가입승인 코드를 포함한 이메일 전송
     log.info("가입승인 코드 이메일 발송: {}, 가입승인 코드: {}", registerDTO.getEmail(), code);
   }
