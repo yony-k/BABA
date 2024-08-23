@@ -1,7 +1,6 @@
 package org.example.baba.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import org.example.baba.controller.dto.request.RegisterDTO;
@@ -33,10 +32,10 @@ public class RegisterServiceTest {
     // given
     // RegisterDTO 생성
     RegisterDTO registerDTO =
-        RegisterDTO.builder().memberName("김민지").password("1234").email("minji@gmail.com").build();
+        RegisterDTO.builder().memberName("김민지").password("1234").email("minji12@gmail.com").build();
 
-    // existsByMemberName의 메소드 사용시 리턴될 값 설정
-    when(memberRepository.existsByMemberName("김민지")).thenReturn(Boolean.TRUE);
+    // existsByMemberName의 메소드 사용시 리턴값 설정
+    when(memberRepository.existsByMemberName("김민지")).thenReturn(true);
 
     // when & then
     // memberService의 메소드 사용시 발생할 예외 클래스 확인
@@ -58,10 +57,10 @@ public class RegisterServiceTest {
     // given
     // RegisterDTO 생성
     RegisterDTO registerDTO =
-        RegisterDTO.builder().memberName("김민지").password("1234").email("minji@gmail.com").build();
+        RegisterDTO.builder().memberName("김성민").password("1234").email("minji@gmail.com").build();
 
-    // existsByMemberName의 메소드 사용시 리턴될 값 설정
-    when(memberRepository.existsByEmail("minji@gmail.com")).thenReturn(Boolean.TRUE);
+    // existsByMemberName의 메소드 사용시 리턴값 설정
+    when(memberRepository.existsByEmail("minji@gmail.com")).thenReturn(true);
 
     // when & then
     // memberService의 메소드 사용시 발생할 예외 클래스 확인
@@ -74,5 +73,24 @@ public class RegisterServiceTest {
 
     // 예외 메세지 확인
     assertEquals(RegisterExceptionType.DUPLICATED_EMAIL.getMessage(), thrown.getMessage());
+  }
+
+  @Test
+  @DisplayName("중복되지 않은 계정명, 이메일 성공 케이스")
+  public void noDuplicateNameAndEmail() {
+    // given
+    // RegisterDTO 생성
+    RegisterDTO registerDTO =
+        RegisterDTO.builder().memberName("김성민").password("1234").email("sungmin@gmail.com").build();
+
+    // existsByMemberName, existsByEmail 사용 시 리턴값 지정
+    when(memberRepository.existsByMemberName("김성민")).thenReturn(false);
+    when(memberRepository.existsByEmail("sungmin@gmail.com")).thenReturn(false);
+
+    // when
+    memberService.isDuplicated(registerDTO);
+
+    // then
+    // 아무런 예외가 발생하지 않아야 함
   }
 }
