@@ -42,13 +42,23 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
+  @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) {
+    return !validAuthorizationHeader(request);
+  }
+
+  private boolean validAuthorizationHeader(HttpServletRequest request) {
+    String authorizationHeader = getAuthenticationTokenToHeader(request);
+    return authorizationHeader != null && authorizationHeader.startsWith(jwtProperties.getPrefix());
+  }
+
   // 인증 정보 생성
   private void setAuthenticationToContext(HttpServletRequest request) {
-    SecurityContextHolder.getContext().setAuthentication(createAuthenticatiedToken(request));
+    SecurityContextHolder.getContext().setAuthentication(createAuthenticatedToken(request));
   }
 
   // 사용자 정보 기반으로 인증 토큰 생성
-  private Authentication createAuthenticatiedToken(HttpServletRequest request) {
+  private Authentication createAuthenticatedToken(HttpServletRequest request) {
     AuthUser authUser = createUserDetails(request);
     return new UsernamePasswordAuthenticationToken(
         authUser.getId(), null, authUser.getAuthorities());
