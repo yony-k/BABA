@@ -1,5 +1,8 @@
 package org.example.baba.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 import org.example.baba.common.entity.BaseTimeEntity;
@@ -45,4 +48,7 @@ public class Post extends BaseTimeEntity {
   public void view() {
     this.viewCount++;
   }
+
+  @OneToMany(mappedBy = "post", orphanRemoval = true)
+  private List<PostHashTagMap> postHashTags = new ArrayList<>();
 }
