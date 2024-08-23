@@ -1,6 +1,7 @@
 package org.example.baba.service;
 
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 import org.example.baba.controller.dto.request.RegisterDTO;
 import org.example.baba.exception.CustomException;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -61,6 +64,10 @@ public class MemberService {
               operations.opsForValue().set(memberKey, registerDTO.toJson());
               // redis에 가입승인 코드 저장
               operations.opsForValue().set(approvalKey, registerDTO.getEmail());
+
+              operations.expire(memberKey, 2, TimeUnit.HOURS);
+              operations.expire(approvalKey, 10, TimeUnit.MINUTES);
+
               return operations.exec();
             } catch (Exception e) {
               operations.discard();
@@ -69,6 +76,7 @@ public class MemberService {
           }
         });
     // 가입승인 코드를 포함한 이메일 전송
+    log.info("가입승인 코드 이메일 발송: {}, 가입승인 코드: {}", registerDTO.getEmail(), code);
   }
 
   public static String generateRandomCode() {
