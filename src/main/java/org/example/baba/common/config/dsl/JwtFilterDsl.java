@@ -2,6 +2,8 @@ package org.example.baba.common.config.dsl;
 
 import org.example.baba.common.redis.RedisRepository;
 import org.example.baba.common.security.filter.JwtAuthenticationFilter;
+import org.example.baba.common.security.filter.JwtVerificationFilter;
+import org.example.baba.common.security.handler.AuthenticationFailureCustomHandler;
 import org.example.baba.common.utils.cookie.CookieUtils;
 import org.example.baba.common.utils.jwt.JwtProperties;
 import org.example.baba.common.utils.jwt.JwtProvider;
@@ -23,6 +25,7 @@ public class JwtFilterDsl extends AbstractHttpConfigurer<JwtFilterDsl, HttpSecur
   private final CookieUtils cookieUtils;
   private final RedisRepository repository;
   private final ObjectMapperUtils objectMapperUtils;
+  private final AuthenticationFailureCustomHandler authenticationFailureCustomHandler;
 
   @Override
   public void configure(HttpSecurity builder) {
@@ -37,9 +40,14 @@ public class JwtFilterDsl extends AbstractHttpConfigurer<JwtFilterDsl, HttpSecur
     // 인증 필터의 URL 경로를 설정
     jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
     jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
+    jwtAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureCustomHandler);
+
+    JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(provider, properties);
 
     // 필터 체인에 JWT 인증 필터를 추가하고, JWT 검증 필터를 JwtAuthenticationFilter보다 먼저 실행되도록 설정
-    builder.addFilter(jwtAuthenticationFilter);
+    builder
+        .addFilter(jwtAuthenticationFilter)
+        .addFilterBefore(jwtVerificationFilter, JwtAuthenticationFilter.class);
   }
 
   public JwtFilterDsl build() {
