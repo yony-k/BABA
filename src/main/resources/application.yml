@@ -17,3 +17,16 @@ spring:
   sql:
     init:
       mode: always
+jwt:
+  prefix: 'Bearer '
+  secret-key: ${JWT}
+  access-token-validity-in-seconds: 150
+  refresh-token-validity-in-seconds: 259200
+  access-header: Authentication
+  refresh-header: Refresh
+
+cookie:
+  limit-time: 259200
+  accepted-url: '/api/auth/reissue'
+  cookie-name: Refresh
+  domain: localhost

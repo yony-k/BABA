@@ -3,6 +3,7 @@ package org.example.baba.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.domain.Post;
 import org.example.baba.domain.enums.SNSType;
 import org.example.baba.exception.CustomException;
@@ -88,5 +89,17 @@ public class PostService {
               throw new CustomException(PostExceptionType.API_CALL_FAILED);
             })
         .block();
+  }
+
+  @Transactional
+  public PostDetailResponseDto getPostDetail(Long postId) {
+    Post post =
+        postRepository
+            .findById(postId)
+            .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
+
+    post.view();
+    postRepository.save(post);
+    return PostDetailResponseDto.from(post);
   }
 }
