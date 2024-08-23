@@ -45,14 +45,17 @@ dependencies {
     // h2
     implementation 'com.h2database:h2'
 
-    //validation
+    // validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    //redis
+    // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-    //devtools
+    // devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // webflux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     //security
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -73,7 +76,7 @@ tasks.named("compileJava") {
     dependsOn 'spotlessJava'
 }
 
-ext.googleJavaFormatVersion = "1.11.0"
+ext.googleJavaFormatVersion = "1.18.1"
 
 spotless {
     java {
