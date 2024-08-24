@@ -22,8 +22,8 @@ INSERT INTO HASH_TAG (ID, TAG_NAME) VALUES
 (7, '김민지');
 
 INSERT INTO POST_HASH_TAG_MAP (ID, HASHTAG_ID, POST_ID) VALUES
-(1, 1, 1),
-(2, 2, 1),
+(1, 7, 1),
+(2, 7, 1),
 (3, 2, 2),
 (4, 3, 3),
 (5, 4, 4),
