@@ -37,9 +37,10 @@ public class StatisticsController {
       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           final LocalDate end) {
 
-    validateDate(start, end, type);
     LocalDate startDate = getOrDefaultStartDate(start);
     LocalDate endDate = getOrDefaultEndDate(end);
+
+    validateDate(startDate, endDate, type);
 
     Map<String, Long> result =
         statisticsService.getStatistics(hashtag, type, value, startDate, endDate);
