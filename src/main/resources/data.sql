@@ -21,7 +21,6 @@ INSERT INTO POST (ID, CONTENT, LIKE_COUNT, SHARE_COUNT, TITLE, TYPE, MEMBER_ID, 
 
 -- HASH_TAG 테이블 데이터 삽입 (20개)
 INSERT INTO HASH_TAG (ID, TAG_NAME) VALUES
-<<<<<<< HEAD
 (1, '오운완'),
 (2, '갓생'),
 (3, '육퇴'),
