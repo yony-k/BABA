@@ -1,7 +1,9 @@
 package org.example.baba.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.controller.dto.response.PostSimpleResponseDto;
@@ -105,9 +107,13 @@ public class PostService {
             .findById(postId)
             .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
 
+    List<String> hashtags =
+        post.getPostHashTags().stream()
+            .map(postHashTagMap -> postHashTagMap.getHashtag().getTagName())
+            .collect(Collectors.toList());
+
     post.view();
-    postRepository.save(post);
-    return PostDetailResponseDto.from(post);
+    return PostDetailResponseDto.from(post, hashtags);
   }
 
   @Transactional(readOnly = true)

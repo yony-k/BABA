@@ -13,6 +13,8 @@ import io.lettuce.core.dynamic.annotation.Param;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
+  Optional<Post> findById(Long postId);
+
   Optional<Post> findByIdAndType(Long postId, SNSType type);
 
   @Query(
