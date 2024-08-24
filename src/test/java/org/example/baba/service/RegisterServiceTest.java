@@ -27,9 +27,6 @@ public class RegisterServiceTest {
 
   @InjectMocks private MemberService memberService;
 
-  public static final String MEMBERKEY_PREFIX = "temporary:";
-  public static final String APPROVALKEY_PREFIX = "approval:";
-
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
@@ -203,10 +200,10 @@ public class RegisterServiceTest {
     MemberService spyMemberService = spy(memberService);
     doReturn(fixedCode).when(spyMemberService).generateRandomCode();
 
-    Register expectedRegister = registerDTO.toEntity(MEMBERKEY_PREFIX);
+    Register expectedRegister = registerDTO.toEntity(MemberService.MEMBERKEY_PREFIX);
     ApprovalCode expectedApprovalCode =
         ApprovalCode.builder()
-            .approvalKey(APPROVALKEY_PREFIX + fixedCode)
+            .approvalKey(MemberService.APPROVALKEY_PREFIX + fixedCode)
             .email(registerDTO.getEmail())
             .build();
 

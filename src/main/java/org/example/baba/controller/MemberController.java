@@ -31,7 +31,6 @@ public class MemberController {
 
   @PostMapping("/confirm")
   public ResponseEntity<String> registerConfirm(@RequestParam("code") String code) {
-
     return null;
   }
 }

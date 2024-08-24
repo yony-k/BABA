@@ -2,8 +2,7 @@ package org.example.baba.domain;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Id;
-
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import lombok.*;
