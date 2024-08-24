@@ -33,7 +33,7 @@ public class MemberService {
   public static final String APPROVALKEY_PREFIX = "approval:";
 
   // DB에서 중복 계정명, 중복 이메일 검사
-  public void isDuplicated(RegisterDTO registerDTO) {
+  public void existInDB(RegisterDTO registerDTO) {
     // 중복 계정명 검사
     boolean existByMemberName = memberRepository.existsByMemberName(registerDTO.getMemberName());
     // 중복 이메일 검사
@@ -78,7 +78,7 @@ public class MemberService {
   }
 
   // 가입승인 코드 생성
-  public static String generateRandomCode() {
+  public String generateRandomCode() {
     // StringBuilder 에 문자열 크기 지정해주며 생성
     StringBuilder randomCode = new StringBuilder(CHARACTERS.length());
     // 랜덤하게 CHARACTERS 의 인덱스를 뽑고 인덱스를 이용하여 연결된 문자열 생성

@@ -21,7 +21,7 @@ public class MemberController {
   @PostMapping
   public ResponseEntity<String> registerRequest(@Valid @RequestBody RegisterDTO registerDTO) {
     // DB에서 중복 검사
-    memberService.isDuplicated(registerDTO);
+    memberService.existInDB(registerDTO);
     // Redis에서 중복 검사
     memberService.existInRedis(registerDTO);
     // 가입승인 코드 전송

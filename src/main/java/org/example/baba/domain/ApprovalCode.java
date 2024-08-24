@@ -12,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 @RedisHash(value = "ApprovalCode", timeToLive = 600)
 public class ApprovalCode implements Serializable {
 

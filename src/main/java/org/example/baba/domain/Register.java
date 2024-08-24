@@ -12,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 @RedisHash(value = "Register", timeToLive = 7200)
 public class Register implements Serializable {
 
