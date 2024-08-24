@@ -20,6 +20,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 public class PostServiceTest {
 
@@ -52,11 +55,11 @@ public class PostServiceTest {
     // when
     PostDetailResponseDto result = postService.getPostDetail(postId);
 
-    System.out.println("예상 postId: " + postId);
-    System.out.println("실제 postId: " + result.getId());
-    System.out.println("View_Count: " + result.getViewCount());
-    System.out.println("Like_Count: " + result.getLikeCount());
-    System.out.println("Share_Count: " + result.getShareCount());
+    log.info("예상 postId: {}", postId);
+    log.info("실제 postId: {}", result.getId());
+    log.info("View_Count: {}", result.getViewCount());
+    log.info("Like_Count: {}", result.getLikeCount());
+    log.info("Share_Count: {}", result.getShareCount());
 
     // then
     assertNotNull(result);
