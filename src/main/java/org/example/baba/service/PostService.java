@@ -102,6 +102,7 @@ public class PostService {
 
   @Transactional
   public PostDetailResponseDto getPostDetail(Long postId) {
+    log.info("postId: " + postId);
     Post post =
         postRepository
             .findById(postId)
