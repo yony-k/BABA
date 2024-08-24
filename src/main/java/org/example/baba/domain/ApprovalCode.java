@@ -13,6 +13,7 @@ import lombok.*;
 @Getter
 @EqualsAndHashCode
 @RedisHash(value = "ApprovalCode", timeToLive = 600)
+@ToString
 public class ApprovalCode implements Serializable {
 
   @Id String approvalKey;

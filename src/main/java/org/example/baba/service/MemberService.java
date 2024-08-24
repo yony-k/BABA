@@ -90,12 +90,14 @@ public class MemberService {
   }
 
   // 가입승인 코드 검증 및 정식 회원가입
+  @Transactional
   public void confirmApprovalCode(String approvalCode) {
     // 가입승인 코드로 redis에 저장된 이메일 가져오기
     ApprovalCode savedApproval =
         approvalCodeRepository
             .findById(APPROVALKEY_PREFIX + approvalCode)
             .orElseThrow(() -> new CustomException(RegisterExceptionType.NOT_FOUND_CODE));
+
     // 가입승인 코드와 함께 저장된 이메일을 키로 저장된 임시 사용자 정보 가져오기
     Register savedRegister =
         registerRepository
@@ -105,11 +107,13 @@ public class MemberService {
     // 가입승인 코드와 함께 저장된 이메일
     String approvalEmail = savedApproval.getEmail();
     // 임시 저장 된 사용자 이메일
-    String registerEmail = savedRegister.getEmail();
+    String registerEmail = savedRegister.getEmail().substring(MEMBERKEY_PREFIX.length());
 
     // 가입승인 코드와 함께 저장된 이메일과 임시 사용자 정보의 이메일 비교 후 정식 회원가입
     if (approvalEmail.equals(registerEmail)) {
-      memberRepository.save(savedRegister.toMember());
+      memberRepository.save(savedRegister.toMember(MEMBERKEY_PREFIX.length()));
+      registerRepository.delete(savedRegister);
+      approvalCodeRepository.delete(savedApproval);
     } else {
       log.error(
           "코드 발송한 이메일과 임시 저장된 이메일 불일치: code({}), savedEmail({}), Register Email({})",

@@ -18,6 +18,7 @@ public class MemberController {
 
   private final MemberService memberService;
 
+  // 가입승인 요청 및 임시 회원가입
   @PostMapping
   public ResponseEntity<String> registerRequest(@Valid @RequestBody RegisterDTO registerDTO) {
     // DB에서 중복 검사
@@ -29,8 +30,11 @@ public class MemberController {
     return ResponseEntity.ok("인증 코드가 발송되었습니다.");
   }
 
+  // 가입승인 코드 확인 및 정식 회원가입
   @PostMapping("/confirm")
-  public ResponseEntity<String> registerConfirm(@RequestParam("code") String code) {
-    return null;
+  public ResponseEntity<String> registerConfirm(@RequestParam("code") String approvalCode) {
+    // 가입승인 및 정식 회원가입
+    memberService.confirmApprovalCode(approvalCode);
+    return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
   }
 }
