@@ -20,8 +20,18 @@ public class MemberController {
 
   @PostMapping
   public ResponseEntity<String> registerRequest(@Valid @RequestBody RegisterDTO registerDTO) {
+    // DB에서 중복 검사
     memberService.isDuplicated(registerDTO);
+    // Redis에서 중복 검사
+    memberService.existInRedis(registerDTO);
+    // 가입승인 코드 전송
     memberService.sendApprovalCode(registerDTO);
     return ResponseEntity.ok("인증 코드가 발송되었습니다.");
+  }
+
+  @PostMapping("/confirm")
+  public ResponseEntity<String> registerConfirm(@RequestParam("code") String code) {
+
+    return null;
   }
 }
