@@ -19,6 +19,9 @@ public class PostSimpleResponseDto {
   private SNSType type;
   private String title;
   private String content;
+  private int viewCount;
+  private int likeCount;
+  private int shareCount;
 
   public static PostSimpleResponseDto from(Post post) {
     return PostSimpleResponseDto.builder()
@@ -27,6 +30,9 @@ public class PostSimpleResponseDto {
         .type(post.getType())
         .title(post.getTitle())
         .content(post.getContent())
+        .viewCount(post.getViewCount())
+        .likeCount(post.getLikeCount())
+        .shareCount(post.getShareCount())
         .build();
   }
 }
