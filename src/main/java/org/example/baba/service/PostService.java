@@ -1,9 +1,7 @@
 package org.example.baba.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.controller.dto.response.PostSimpleResponseDto;
@@ -113,19 +111,25 @@ public class PostService {
   }
 
   @Transactional(readOnly = true)
-  public List<PostSimpleResponseDto> getPosts(
+  public Page<PostSimpleResponseDto> getPosts(
       String hashtag,
       SNSType type,
-      String search,
       String searchBy,
+      String searchKeyword,
       String orderBy,
+      String orderDirection,
       int page,
-      int pageCount) {
-    Pageable pageable = PageRequest.of(page, pageCount, getSort(orderBy));
+      int size) {
 
-    Page<Post> posts = postRepository.findPosts(hashtag, type, search, pageable);
+    // 정렬
+    Sort.Direction direction = Sort.Direction.fromString(orderDirection);
+    Sort sort = Sort.by(direction, orderBy);
 
-    return posts.stream().map(PostSimpleResponseDto::from).collect(Collectors.toList());
+    // 페이징 (page 는 0부터 시작)
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    Page<Post> posts = postRepository.findPosts(hashtag, type, searchBy, searchKeyword, pageable);
+    return posts.map(PostSimpleResponseDto::from);
   }
 
   private Sort getSort(String orderBy) {
