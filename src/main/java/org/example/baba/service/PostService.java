@@ -6,11 +6,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.example.baba.controller.dto.response.PostDetailResponseDto;
+import org.example.baba.controller.dto.response.PostSimpleResponseDto;
 import org.example.baba.domain.Post;
 import org.example.baba.domain.enums.SNSType;
 import org.example.baba.exception.CustomException;
 import org.example.baba.exception.exceptionType.PostExceptionType;
 import org.example.baba.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +44,7 @@ public class PostService {
                   .findByIdAndType(postId, type)
                   .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
           post.like();
+          postRepository.save(post);
         });
   }
 
@@ -54,6 +60,7 @@ public class PostService {
                   .findByIdAndType(postId, type)
                   .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
           post.share();
+          postRepository.save(post);
         });
   }
 
@@ -107,5 +114,45 @@ public class PostService {
 
     post.view();
     return PostDetailResponseDto.from(post, hashtags);
+  }
+
+  @Transactional(readOnly = true)
+  public Page<PostSimpleResponseDto> getPosts(
+      String hashtag,
+      SNSType type,
+      String searchBy,
+      String searchKeyword,
+      String orderBy,
+      String orderDirection,
+      int page,
+      int size) {
+
+    // 정렬
+    Sort.Direction direction = Sort.Direction.fromString(orderDirection);
+    Sort sort = Sort.by(direction, orderBy);
+
+    // 페이징 (page 는 0부터 시작)
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    Page<Post> posts = postRepository.findPosts(hashtag, type, searchBy, searchKeyword, pageable);
+
+    // Post 를 PostSimpleResponseDto 로 변환
+    return posts.map(
+        post -> {
+          // 해시태그 찾기
+          List<String> hashTags =
+              post.getPostHashTags().stream()
+                  .map(postHashTagMap -> postHashTagMap.getHashtag().getTagName())
+                  .collect(Collectors.toList());
+
+          return PostSimpleResponseDto.builder()
+              .id(post.getId())
+              .memberId(post.getMemberId())
+              .type(post.getType())
+              .title(post.getTitle())
+              .content(post.getContent())
+              .hashTags(hashTags) // 해시태그 포함
+              .build();
+        });
   }
 }

@@ -1,8 +1,10 @@
 package org.example.baba.controller;
 
 import org.example.baba.controller.dto.response.PostDetailResponseDto;
+import org.example.baba.controller.dto.response.PostSimpleResponseDto;
 import org.example.baba.domain.enums.SNSType;
 import org.example.baba.service.PostService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,5 +37,33 @@ public class PostController {
   public ResponseEntity<PostDetailResponseDto> getPostDetail(@PathVariable Long postId) {
     PostDetailResponseDto post = postService.getPostDetail(postId);
     return ResponseEntity.ok(post);
+  }
+
+  @GetMapping
+  public ResponseEntity<Page<PostSimpleResponseDto>> getPosts(
+      @RequestParam(required = false) String hashtag,
+      @RequestParam(required = false) SNSType type,
+      @RequestParam(defaultValue = "title,content") String searchBy,
+      @RequestParam(required = false) String searchKeyword,
+      @RequestParam(defaultValue = "createdAt") String orderBy,
+      @RequestParam(defaultValue = "asc") String orderDirection,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "5") int size) {
+    log.info(
+        "getPosts - hashtag: {}, type: {}, searchBy: {}, searchKeyword: {}, orderBy: {}, orderDirection: {}, page: {}, size: {}",
+        hashtag,
+        type,
+        searchBy,
+        searchKeyword,
+        orderBy,
+        orderDirection,
+        page,
+        size);
+
+    Page<PostSimpleResponseDto> posts =
+        postService.getPosts(
+            hashtag, type, searchBy, searchKeyword, orderBy, orderDirection, page, size);
+
+    return ResponseEntity.ok(posts);
   }
 }
