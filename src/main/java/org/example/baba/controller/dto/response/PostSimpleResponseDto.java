@@ -1,5 +1,7 @@
 package org.example.baba.controller.dto.response;
 
+import java.util.List;
+
 import org.example.baba.domain.Post;
 import org.example.baba.domain.enums.SNSType;
 
@@ -22,8 +24,9 @@ public class PostSimpleResponseDto {
   private int viewCount;
   private int likeCount;
   private int shareCount;
+  private List<String> hashTags;
 
-  public static PostSimpleResponseDto from(Post post) {
+  public static PostSimpleResponseDto from(Post post, List<String> hashTags) {
     return PostSimpleResponseDto.builder()
         .id(post.getId())
         .memberId(post.getMemberId())
@@ -33,6 +36,7 @@ public class PostSimpleResponseDto {
         .viewCount(post.getViewCount())
         .likeCount(post.getLikeCount())
         .shareCount(post.getShareCount())
+        .hashTags(hashTags)
         .build();
   }
 }

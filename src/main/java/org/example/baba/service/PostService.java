@@ -135,6 +135,24 @@ public class PostService {
     Pageable pageable = PageRequest.of(page, size, sort);
 
     Page<Post> posts = postRepository.findPosts(hashtag, type, searchBy, searchKeyword, pageable);
-    return posts.map(PostSimpleResponseDto::from);
+
+    // Post 를 PostSimpleResponseDto 로 변환
+    return posts.map(
+        post -> {
+          // 해시태그 찾기
+          List<String> hashTags =
+              post.getPostHashTags().stream()
+                  .map(postHashTagMap -> postHashTagMap.getHashtag().getTagName())
+                  .collect(Collectors.toList());
+
+          return PostSimpleResponseDto.builder()
+              .id(post.getId())
+              .memberId(post.getMemberId())
+              .type(post.getType())
+              .title(post.getTitle())
+              .content(post.getContent())
+              .hashTags(hashTags) // 해시태그 포함
+              .build();
+        });
   }
 }
