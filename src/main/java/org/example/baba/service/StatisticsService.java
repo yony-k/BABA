@@ -1,5 +1,7 @@
 package org.example.baba.service;
 
+import static org.example.baba.exception.exceptionType.AuthorizedExceptionType.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +11,9 @@ import java.util.TreeMap;
 
 import org.example.baba.common.enums.StatisticsType;
 import org.example.baba.common.enums.StatisticsValue;
+import org.example.baba.common.security.details.AuthUser;
+import org.example.baba.exception.CustomException;
+import org.example.baba.repository.MemberRepository;
 import org.example.baba.repository.StatisticsRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,12 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.querydsl.core.Tuple;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class StatisticsService {
-
+  private final MemberRepository memberRepository;
   private final StatisticsRepository statisticsRepository;
 
   public Map<String, Long> getStatistics(
@@ -55,7 +62,12 @@ public class StatisticsService {
   private String getOrDefaultEndDate(String hashtag) {
     if (hashtag == null) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      return authentication.getName();
+      AuthUser authUser = (AuthUser) authentication.getPrincipal();
+      Long memberId = authUser.getId();
+      return memberRepository
+          .findById(memberId)
+          .orElseThrow(() -> new CustomException(UNAUTHENTICATED))
+          .getMemberName();
     }
     return hashtag;
   }
