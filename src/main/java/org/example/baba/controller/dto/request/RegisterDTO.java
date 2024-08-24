@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import org.example.baba.common.anotation.ValidPassword;
+import org.example.baba.domain.Register;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,19 +31,11 @@ public class RegisterDTO {
   @Email(message = "올바른 이메일 형식이 아닙니다.")
   String email;
 
-  public String toJson() {
-    try {
-      return objectMapper.writeValueAsString(this);
-    } catch (Exception e) {
-      throw new RuntimeException("RegisterDTO 의 toJson 오류", e);
-    }
-  }
-
-  public static RegisterDTO fromJson(String json) {
-    try {
-      return objectMapper.readValue(json, RegisterDTO.class);
-    } catch (Exception e) {
-      throw new RuntimeException("RegisterDTO 의 fromJson 오류", e);
-    }
+  public Register toEntity(String preFix) {
+    return Register.builder()
+        .email(preFix + this.email)
+        .memberName(this.memberName)
+        .password(this.password)
+        .build();
   }
 }
