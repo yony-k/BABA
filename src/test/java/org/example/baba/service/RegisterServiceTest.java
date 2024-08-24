@@ -1,9 +1,12 @@
 package org.example.baba.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import org.example.baba.controller.dto.request.RegisterDTO;
+import org.example.baba.domain.ApprovalCode;
+import org.example.baba.domain.Register;
 import org.example.baba.exception.CustomException;
 import org.example.baba.exception.exceptionType.RegisterExceptionType;
 import org.example.baba.repository.ApprovalCodeRepository;
@@ -181,5 +184,37 @@ public class RegisterServiceTest {
 
     // then
     // 아무런 예외가 발생하지 않아야 함
+  }
+
+  // sendApprovalCode 메소드 테스트
+
+  @Test
+  public void sendApprovalCodeTest() {
+    // given
+    RegisterDTO registerDTO =
+        RegisterDTO.builder()
+            .memberName("김민지")
+            .password("Valid1234!")
+            .email("minji12@gmail.com")
+            .build();
+
+    String fixedCode = "123456";
+
+    MemberService spyMemberService = spy(memberService);
+    doReturn(fixedCode).when(spyMemberService).generateRandomCode();
+
+    Register expectedRegister = registerDTO.toEntity(MEMBERKEY_PREFIX);
+    ApprovalCode expectedApprovalCode =
+        ApprovalCode.builder()
+            .approvalKey(APPROVALKEY_PREFIX + fixedCode)
+            .email(registerDTO.getEmail())
+            .build();
+
+    // when
+    spyMemberService.sendApprovalCode(registerDTO);
+
+    // then
+    verify(registerRepository).save(eq(expectedRegister));
+    verify(approvalCodeRepository).save(eq(expectedApprovalCode));
   }
 }
