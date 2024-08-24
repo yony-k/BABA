@@ -10,6 +10,8 @@ import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.domain.HashTag;
 import org.example.baba.domain.Post;
 import org.example.baba.domain.PostHashTagMap;
+import org.example.baba.exception.CustomException;
+import org.example.baba.exception.exceptionType.PostExceptionType;
 import org.example.baba.repository.PostRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,5 +70,25 @@ public class PostServiceTest {
 
     verify(post).view(); // 조회수 증가 메서드 1회 호출 확인
     // verify(post, times(2)).view(); 메서드 2회 호출 감지 시 (X)
+  }
+
+  @Test
+  @DisplayName("게시글이 존재하지 않을 때 예외 처리")
+  void getPostNotFound() {
+
+    // given
+    Long postId = 1L;
+    when(postRepository.findById(postId)).thenReturn(Optional.empty());
+
+    // when & then
+    CustomException thrown =
+        assertThrows(
+            CustomException.class,
+            () -> {
+              postService.getPostDetail(postId);
+            });
+
+    // 설정해둔 예외 값과 일치하는 지 확인
+    assertEquals(PostExceptionType.NOT_FOUND_POST, thrown.getExceptionType());
   }
 }
