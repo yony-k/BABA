@@ -131,14 +131,4 @@ public class PostService {
     Page<Post> posts = postRepository.findPosts(hashtag, type, searchBy, searchKeyword, pageable);
     return posts.map(PostSimpleResponseDto::from);
   }
-
-  private Sort getSort(String orderBy) {
-    return switch (orderBy) {
-      case "updated_at" -> Sort.by(Sort.Order.desc("updatedAt"));
-      case "like_count" -> Sort.by(Sort.Order.desc("likeCount"));
-      case "share_count" -> Sort.by(Sort.Order.desc("shareCount"));
-      case "view_count" -> Sort.by(Sort.Order.desc("viewCount"));
-      default -> Sort.by(Sort.Order.desc("createdAt"));
-    };
-  }
 }
