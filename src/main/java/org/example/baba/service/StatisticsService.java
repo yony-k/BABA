@@ -1,6 +1,7 @@
 package org.example.baba.service;
 
 import static org.example.baba.exception.exceptionType.AuthorizedExceptionType.*;
+import static org.example.baba.exception.exceptionType.StatisticsExceptionType.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,8 +12,11 @@ import java.util.TreeMap;
 
 import org.example.baba.common.enums.StatisticsType;
 import org.example.baba.common.enums.StatisticsValue;
+import org.example.baba.exception.CustomException;
 import org.example.baba.repository.MemberRepository;
 import org.example.baba.repository.StatisticsRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,22 +53,21 @@ public class StatisticsService {
       posts = statisticsRepository.findPostsGroupedByHour(hashTag, startDateTime, endDateTime);
       result = groupByHour(posts, value, startDateTime, endDateTime);
     } else {
-      throw new IllegalArgumentException("Invalid type parameter");
+      throw new CustomException(INVALID_TYPE_EXCEPTION);
     }
 
     return result;
   }
 
   private String getOrDefaultEndDate(String hashtag) {
-    // if (hashtag == null) {
-    // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    // Long memberId = Long.valueOf((String)authentication.getPrincipal());
-    // log.info("memberId: {}", memberId);
-    // return memberRepository
-    //     .findById(memberId)
-    //     .orElseThrow(() -> new CustomException(UNAUTHENTICATED))
-    //     .getMemberName();
-    // }
+    if (hashtag == null) {
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      Long memberId = (long) authentication.getPrincipal();
+      return memberRepository
+          .findById(memberId)
+          .orElseThrow(() -> new CustomException(UNAUTHENTICATED))
+          .getMemberName();
+    }
     return hashtag;
   }
 

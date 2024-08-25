@@ -51,6 +51,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers("/h2-console/**")
                     .permitAll()
+                    .requestMatchers("/api/stats/**")
+                    .hasAnyRole("USER", "ADMIN")
                     .anyRequest()
                     .authenticated())
         .sessionManagement(
