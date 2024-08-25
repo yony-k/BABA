@@ -47,6 +47,8 @@ public class SecurityConfig {
                 authorize
                     .requestMatchers("/api/admin/**")
                     .hasRole("ADMIN")
+                    .requestMatchers("/api/stats/**")
+                    .hasAnyRole("USER", "ADMIN")
                     .anyRequest()
                     .permitAll())
         .sessionManagement(
