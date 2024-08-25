@@ -1,15 +1,11 @@
 ## 프로젝트 개요
 
----
-
 ### 기술 스택
 ![java](https://img.shields.io/badge/Java-17-blue?logo=java)
 ![spring-boot](https://img.shields.io/badge/SpringBoot-3.2.2-grren?logo=springboot)
 
-
 ### 요구사항
 [소셜 미디어 통합 Feed 서비스](https://www.notion.so/Feed-a419bee31618497db0c4d5c8486ef8a9?pvs=21)
-
 
 ### 팀 구성
 
@@ -21,13 +17,11 @@
 | 안소나 | objet_an@naver.com | sonaanweb | 게시물 상세 조회 API                          |
 | 유서정 | bbwest0709@gmail.com | bbwest0709 | 사용자 로그인 API                            |
 
+</br>
 
 ## 프로젝트 관리
 
----
-
 ### 일정
-
 | 날짜 | 활동 | 설명 |
 | --- | --- | --- |
 | 24.08.20 ~ 24.08.21 | 협업 기초 마련  | 팀 구성, 팀 규칙, 컨벤션(commit, PR, merge, issue) 정립 |
@@ -35,15 +29,22 @@
 | 24.08.25 ~ 24.08.26  | 테스트 코드 및 문서 작성 | 테스트 코드 작성, API 명세서, 프로젝트 페이지, README 작성 |
 | 24.08.27 | 코드 리뷰 및 배포  | 최종 코드 리뷰 및 배포 |
 
-### 이슈 관리
-이미지 넣기
+</br>
 
-### 컨벤션
-컨벤션 넣기
+<details>
+<summary><strong>이슈 관리</strong></summary>
+![issue](https://github.com/user-attachments/assets/f74c4fb2-15ac-4a68-b040-5241ce8d1e29)
+
+</details>
+
+<details>
+<summary><strong>컨벤션</strong></summary>
+
+</details>
+
+</br>
 
 ## 기술 문서
-
----
 
 ### API 명세서
 
@@ -60,67 +61,136 @@
 | **게시물 공유** | PUT | `/api/posts/{id}/share` | 게시물을 공유합니다. |
 | **통계 조회** | GET | `/api/stats` | 게시물 통계 정보를 조회합니다. |
 
+</br>
+
 <details>
 <summary><strong>ERD</strong></summary>
-이미지 넣기
+![BABA](https://github.com/user-attachments/assets/04cf41ff-91ac-4f11-a125-c6ca30743947)
 </details>
 
 <details>
 <summary><strong>디렉토리 구조</strong></summary>
 
 ```bash
-/project-root
-│
-├── .github/                       # GitHub Actions 및 기타 설정
-│   └── workflows/                 # CI/CD 파이프라인 정의 파일
-│       └── ci-cd.yml
-│
-├── build/                         # 빌드 결과물
-│
-├── src/                           # 소스 코드
-│   ├── main/                      # 메인 애플리케이션 코드
-│   │   ├── java/                  # Java 소스 코드
-│   │   │   └── com/               # 패키지 구조
-│   │   │       └── example/       # 패키지 구조
-│   │   │           └── myapp/     # 패키지 구조
-│   │   │               ├── MyApplication.java
-│   │   │               ├── controller/
-│   │   │               ├── service/
-│   │   │               └── repository/
-│   │   ├── resources/             # 리소스 파일
-│   │   │   ├── application.properties
-│   │   │   └── static/
-│   │   │   └── templates/
-│   │   └── webapp/                # 웹 애플리케이션 관련 리소스
-│   │
-│   ├── test/                      # 테스트 코드
-│   │   ├── java/                  # Java 테스트 코드
-│   │   │   └── com/               # 패키지 구조
-│   │   │       └── example/       # 패키지 구조
-│   │   │           └── myapp/     # 패키지 구조
-│   │   │               ├── MyApplicationTests.java
-│   │   │               ├── controller/
-│   │   │               ├── service/
-│   │   │               └── repository/
-│   │   └── resources/             # 테스트 리소스
-│   │
-├── Dockerfile                      # Docker 빌드 파일
-├── .dockerignore                   # Docker 빌드 시 무시할 파일 목록
-├── build.gradle                    # Gradle 빌드 파일
-├── settings.gradle                 # Gradle 설정 파일
-├── README.md                       # 프로젝트 설명 문서
-├── .gitignore                      # Git 무시 파일 목록
-└── .env                            # 환경 변수 파일
-
+BABA
+├── main
+│   ├── java
+│   │   └── org
+│   │       └── example
+│   │           └── baba
+│   │               ├── BabaApplication.java
+│   │               ├── common
+│   │               │   ├── anotation
+│   │               │   │   ├── PasswordValidator.java
+│   │               │   │   └── ValidPassword.java
+│   │               │   ├── config
+│   │               │   │   ├── QueryDSLConfig.java
+│   │               │   │   ├── RedisConfig.java
+│   │               │   │   ├── SecurityConfig.java
+│   │               │   │   ├── WebClientConfig.java
+│   │               │   │   └── dsl
+│   │               │   │       └── JwtFilterDsl.java
+│   │               │   ├── entity
+│   │               │   │   └── BaseTimeEntity.java
+│   │               │   ├── enums
+│   │               │   │   ├── StatisticsType.java
+│   │               │   │   └── StatisticsValue.java
+│   │               │   ├── property
+│   │               │   │   └── YamlPropertySourceFactory.java
+│   │               │   ├── redis
+│   │               │   │   └── RedisRepository.java
+│   │               │   ├── security
+│   │               │   │   ├── controller
+│   │               │   │   │   └── AuthController.java
+│   │               │   │   ├── details
+│   │               │   │   │   ├── AuthUser.java
+│   │               │   │   │   └── MemberDetailService.java
+│   │               │   │   ├── dto
+│   │               │   │   │   ├── LoginDto.java
+│   │               │   │   │   └── MemberInfo.java
+│   │               │   │   ├── filter
+│   │               │   │   │   ├── JwtAuthenticationFilter.java
+│   │               │   │   │   └── JwtVerificationFilter.java
+│   │               │   │   ├── handler
+│   │               │   │   │   ├── AuthenticationEntryPointHandler.java
+│   │               │   │   │   ├── AuthenticationFailureCustomHandler.java
+│   │               │   │   │   ├── LogoutSuccessCustomHandler.java
+│   │               │   │   │   └── VerificationAccessDeniedHandler.java
+│   │               │   │   └── service
+│   │               │   │       └── AuthService.java
+│   │               │   └── utils
+│   │               │       ├── cookie
+│   │               │       │   ├── CookieProperties.java
+│   │               │       │   └── CookieUtils.java
+│   │               │       ├── jwt
+│   │               │       │   ├── JwtProperties.java
+│   │               │       │   └── JwtProvider.java
+│   │               │       └── translator
+│   │               │           └── ObjectMapperUtils.java
+│   │               ├── controller
+│   │               │   ├── MemberController.java
+│   │               │   ├── PostController.java
+│   │               │   ├── StatisticsController.java
+│   │               │   └── dto
+│   │               │       ├── request
+│   │               │       │   └── RegisterDTO.java
+│   │               │       └── response
+│   │               │           ├── PostDetailResponseDto.java
+│   │               │           └── PostSimpleResponseDto.java
+│   │               ├── domain
+│   │               │   ├── ApprovalCode.java
+│   │               │   ├── HashTag.java
+│   │               │   ├── Member.java
+│   │               │   ├── Post.java
+│   │               │   ├── PostHashTagMap.java
+│   │               │   ├── Register.java
+│   │               │   └── enums
+│   │               │       ├── MemberRole.java
+│   │               │       └── SNSType.java
+│   │               ├── exception
+│   │               │   ├── CustomException.java
+│   │               │   ├── CustomExceptionHandler.java
+│   │               │   └── exceptionType
+│   │               │       ├── AuthorizedExceptionType.java
+│   │               │       ├── CommonExceptionType.java
+│   │               │       ├── ExceptionType.java
+│   │               │       ├── PostExceptionType.java
+│   │               │       ├── RegisterExceptionType.java
+│   │               │       ├── StatisticsExceptionType.java
+│   │               │       └── UserExceptionType.java
+│   │               ├── repository
+│   │               │   ├── ApprovalCodeRepository.java
+│   │               │   ├── MemberRepository.java
+│   │               │   ├── PostRepository.java
+│   │               │   ├── RegisterRepository.java
+│   │               │   └── StatisticsRepository.java
+│   │               └── service
+│   │                   ├── MemberService.java
+│   │                   ├── PostService.java
+│   │                   └── StatisticsService.java
+│   └── resources
+│       ├── application.yml
+│       └── data.sql
+└── test
+    └── java
+        └── org
+            └── example
+                └── baba
+                    ├── BabaApplicationTests.java
+                    ├── common
+                    │   ├── RedisTest.java
+                    │   └── ValidAnotaionTest.java
+                    └── service
+                        ├── PostServiceTest.java
+                        └── RegisterServiceTest.java
 ```
 </details>
 
+</br>
+
 ## 기능 구현
 
----
-
 ### 사용자 인증 시스템
-
 - 사용자 회원가입 api
 - 사용자 가입승인 api
 - 사용자 로그인 api
@@ -128,18 +198,15 @@
 - jwt token
 
 ### RESTful API
-
 - 게시물 상세 api
 - 게시물 목록 API
 - 게시물 좋아요 api
 - 게시물 공유 api
 
 ### 통계
-
 - 기간 내 해당 해시태그가 포함된 게시물을 일자별로 제공
 - 기간 내 해당 해시태그가 포함된 게시물을 시간별로 제공
 
+</br>
+
 ## 트러블 슈팅
-
----
-
