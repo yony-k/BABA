@@ -11,12 +11,8 @@ import java.util.TreeMap;
 
 import org.example.baba.common.enums.StatisticsType;
 import org.example.baba.common.enums.StatisticsValue;
-import org.example.baba.common.security.details.AuthUser;
-import org.example.baba.exception.CustomException;
 import org.example.baba.repository.MemberRepository;
 import org.example.baba.repository.StatisticsRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,15 +56,15 @@ public class StatisticsService {
   }
 
   private String getOrDefaultEndDate(String hashtag) {
-    if (hashtag == null) {
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      AuthUser authUser = (AuthUser) authentication.getPrincipal();
-      Long memberId = authUser.getId();
-      return memberRepository
-          .findById(memberId)
-          .orElseThrow(() -> new CustomException(UNAUTHENTICATED))
-          .getMemberName();
-    }
+    // if (hashtag == null) {
+    // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    // Long memberId = Long.valueOf((String)authentication.getPrincipal());
+    // log.info("memberId: {}", memberId);
+    // return memberRepository
+    //     .findById(memberId)
+    //     .orElseThrow(() -> new CustomException(UNAUTHENTICATED))
+    //     .getMemberName();
+    // }
     return hashtag;
   }
 
