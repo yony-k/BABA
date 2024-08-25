@@ -74,9 +74,8 @@ public class StatisticsService {
 
   private Map<String, Long> groupByDate(
       List<Tuple> results, StatisticsValue value, LocalDate start, LocalDate end) {
-    Map<String, Long> result = new TreeMap<>(); // TreeMap을 사용하여 날짜를 자동으로 정렬
+    Map<String, Long> result = new TreeMap<>();
 
-    // Fill result map with default values
     LocalDate current = start;
     while (!current.isAfter(end)) {
       result.put(current.toString(), 0L);
@@ -86,18 +85,17 @@ public class StatisticsService {
     for (Tuple tuple : results) {
       LocalDate date =
           LocalDate.of(
-              tuple.get(0, Integer.class), // Year
-              tuple.get(1, Integer.class), // Month
-              tuple.get(2, Integer.class) // Day
-              );
+              tuple.get(0, Integer.class),
+              tuple.get(1, Integer.class),
+              tuple.get(2, Integer.class));
       String dateStr = date.toString();
 
       long sumValue =
           getValue(
-              tuple.get(3, Integer.class), // Sum of view count
-              tuple.get(4, Integer.class), // Sum of like count
-              tuple.get(5, Integer.class), // Sum of share count
-              tuple.get(6, Long.class), // Count of posts
+              tuple.get(3, Integer.class),
+              tuple.get(4, Integer.class),
+              tuple.get(5, Integer.class),
+              tuple.get(6, Long.class),
               value);
       result.put(dateStr, sumValue);
     }
@@ -107,10 +105,9 @@ public class StatisticsService {
 
   private Map<String, Long> groupByHour(
       List<Tuple> results, StatisticsValue value, LocalDateTime start, LocalDateTime end) {
-    Map<String, Long> result = new TreeMap<>(); // TreeMap을 사용하여 시간을 자동으로 정렬
+    Map<String, Long> result = new TreeMap<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:00");
 
-    // Fill result map with default values
     LocalDateTime current = start;
     while (!current.isAfter(end)) {
       String formattedDateTime = current.format(formatter);
@@ -122,18 +119,17 @@ public class StatisticsService {
       String dateTimeStr =
           String.format(
               "%d-%02d-%02dT%02d:00",
-              tuple.get(0, Integer.class), // Year
-              tuple.get(1, Integer.class), // Month
-              tuple.get(2, Integer.class), // Day
-              tuple.get(3, Integer.class) // Hour
-              );
+              tuple.get(0, Integer.class),
+              tuple.get(1, Integer.class),
+              tuple.get(2, Integer.class),
+              tuple.get(3, Integer.class));
 
       long sumValue =
           getValue(
-              tuple.get(4, Integer.class), // Sum of view count
-              tuple.get(5, Integer.class), // Sum of like count
-              tuple.get(6, Integer.class), // Sum of share count
-              tuple.get(7, Long.class), // Count of posts
+              tuple.get(4, Integer.class),
+              tuple.get(5, Integer.class),
+              tuple.get(6, Integer.class),
+              tuple.get(7, Long.class),
               value);
       result.put(dateTimeStr, sumValue);
     }
