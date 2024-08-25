@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import org.example.baba.common.anotation.ValidPassword;
 import org.example.baba.domain.Register;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.*;
 
 @Builder
@@ -17,8 +15,6 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class RegisterDTO {
-
-  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   @NotBlank(message = "아이디를 입력해주세요.")
   String memberName;
