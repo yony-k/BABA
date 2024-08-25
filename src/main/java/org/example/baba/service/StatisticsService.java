@@ -1,6 +1,7 @@
 package org.example.baba.service;
 
 import static org.example.baba.exception.exceptionType.AuthorizedExceptionType.*;
+import static org.example.baba.exception.exceptionType.StatisticsExceptionType.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -52,7 +53,7 @@ public class StatisticsService {
       posts = statisticsRepository.findPostsGroupedByHour(hashTag, startDateTime, endDateTime);
       result = groupByHour(posts, value, startDateTime, endDateTime);
     } else {
-      throw new IllegalArgumentException("Invalid type parameter");
+      throw new CustomException(INVALID_TYPE_EXCEPTION);
     }
 
     return result;
