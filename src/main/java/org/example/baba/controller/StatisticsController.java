@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/statistics")
+@RequestMapping("/api/stats")
 @RequiredArgsConstructor
 @Slf4j
 public class StatisticsController {
