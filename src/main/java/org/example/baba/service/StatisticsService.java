@@ -62,7 +62,6 @@ public class StatisticsService {
     if (hashtag == null) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       Long memberId = (long) authentication.getPrincipal();
-      log.info("memberId: {}", memberId);
       return memberRepository
           .findById(memberId)
           .orElseThrow(() -> new CustomException(UNAUTHENTICATED))
