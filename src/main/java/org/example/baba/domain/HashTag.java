@@ -19,4 +19,9 @@ public class HashTag {
   private Long id;
 
   private String tagName;
+
+  public HashTag(Long id, String tagName) {
+    this.id = id;
+    this.tagName = tagName;
+  }
 }
