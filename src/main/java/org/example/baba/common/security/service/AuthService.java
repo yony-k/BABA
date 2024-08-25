@@ -33,7 +33,7 @@ public class AuthService {
   private final ObjectMapperUtils objectMapperUtils;
   private final CookieUtils cookieUtils;
 
-  // 리프레시 토큰 재발급
+  // 리프레시 토큰으로 액세스 토큰 재발급
   public void reissue(HttpServletRequest request, HttpServletResponse response) {
     Member findMember = validRefreshTokenSubject(findMemberData(request));
 
