@@ -25,7 +25,7 @@ spring:
 jwt:
   prefix: 'Bearer '
   secret-key: ${JWT}
-  access-token-validity-in-seconds: 150
+  access-token-validity-in-seconds: 1500
   refresh-token-validity-in-seconds: 259200
   access-header: Authentication
   refresh-header: Refresh
