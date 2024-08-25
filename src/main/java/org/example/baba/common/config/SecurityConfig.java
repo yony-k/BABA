@@ -47,6 +47,10 @@ public class SecurityConfig {
                 authorize
                     .requestMatchers("/api/admin/**")
                     .hasRole("ADMIN")
+                    .requestMatchers("/api/auth/reissue")
+                    .permitAll()
+                    .requestMatchers("/h2-console/**")
+                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .sessionManagement(
@@ -70,7 +74,7 @@ public class SecurityConfig {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOriginPatterns(Arrays.asList("*"));
     configuration.setAllowedMethods(
-        Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONAL", "OPTIONS"));
+        Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONAL", "OPTIONS"));
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(Arrays.asList("*"));
     configuration.setExposedHeaders(
