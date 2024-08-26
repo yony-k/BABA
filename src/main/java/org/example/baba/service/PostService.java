@@ -32,32 +32,24 @@ public class PostService {
 
   @Transactional
   public void likePost(Long postId, SNSType type) {
+    Post post =
+        postRepository
+            .findByIdAndType(postId, type)
+            .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
     String uri = getUriForSNSType(postId, type, "likes");
-    callApiProcess(
-        HttpMethod.POST,
-        uri,
-        () -> {
-          Post post =
-              postRepository
-                  .findByIdAndType(postId, type)
-                  .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
-          post.like();
-        });
+
+    callApiProcess(HttpMethod.POST, uri, post::like);
   }
 
   @Transactional
   public void sharePost(Long postId, SNSType type) {
-    String uri = getUriForSNSType(postId, type, "share");
-    callApiProcess(
-        HttpMethod.POST,
-        uri,
-        () -> {
-          Post post =
-              postRepository
-                  .findByIdAndType(postId, type)
-                  .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
-          post.share();
-        });
+    Post post =
+        postRepository
+            .findByIdAndType(postId, type)
+            .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
+    String uri = getUriForSNSType(postId, type, "likes");
+
+    callApiProcess(HttpMethod.POST, uri, post::share);
   }
 
   private String getUriForSNSType(Long postId, SNSType type, String action) {

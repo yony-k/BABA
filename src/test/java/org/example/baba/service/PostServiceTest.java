@@ -97,7 +97,7 @@ public class PostServiceTest {
 
   @Test
   @DisplayName("게시글 좋아요를 클릭하여 좋아요 수가 1 증가합니다.")
-  void like_post() {
+  void like_post_increases_count_by_one() {
     // given
     Long postId = 1L;
     SNSType type = SNSType.FACEBOOK;
