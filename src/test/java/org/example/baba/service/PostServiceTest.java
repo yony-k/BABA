@@ -217,6 +217,15 @@ public class PostServiceTest {
             hashtag, type, searchBy, searchKeyword, orderBy, orderDirection, page, size);
 
     // then
+    verify(postRepository, times(1))
+        .findPosts(
+            hashtag,
+            type,
+            searchBy,
+            searchKeyword,
+            PageRequest.of(
+                page, size, Sort.by(Sort.Direction.fromString(orderDirection), orderBy)));
+
     assertNotNull(result, "결과 페이지는 null 이 아니어야 합니다.");
     assertEquals(expectedPosts.size(), result.getTotalElements(), "검색하여 나온 게시글 총 개수를 검증합니다.");
     assertEquals(2, result.getTotalPages(), "검색하여 나온 게시글 총 페이지수를 검증합니다.");
