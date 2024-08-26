@@ -42,42 +42,29 @@ public class PostServiceTest {
 
     // given
     Long postId = 1L;
-    Post post = mock(Post.class); // 임의 생성
-    HashTag hashTag1 = new HashTag(1L, "개발");
-    HashTag hashTag2 = new HashTag(1L, "공부");
 
-    PostHashTagMap postHashTagMap1 = new PostHashTagMap(1L, post, hashTag1);
-    PostHashTagMap postHashTagMap2 = new PostHashTagMap(1L, post, hashTag2);
+    Post post = new Post(postId, SNSType.INSTAGRAM, "Title", "Content", 0, 0, 0);
+    HashTag hashTag = new HashTag(1L, "코딩");
+    PostHashTagMap postHashTagMap = new PostHashTagMap(1L, post, hashTag);
+    post.getPostHashTags().add(postHashTagMap);
 
-    when(post.getId()).thenReturn(postId); // mock 객체는 기본값인 `0`을 반환하기 때문에 설정
-    when(post.getPostHashTags()).thenReturn(Arrays.asList(postHashTagMap1, postHashTagMap2));
     when(postRepository.findById(postId)).thenReturn(Optional.of(post));
 
-    // 기존 조회수 & 좋아요 & 공유수 설정
-    doReturn(10).when(post).getViewCount(); // mock spy - 기댓값 설정
-    when(post.getLikeCount()).thenReturn(5);
-    when(post.getShareCount()).thenReturn(10);
+    log.info("서비스 호출 전 viewCount: {}", post.getViewCount()); // = 0
 
     // when
-    PostDetailResponseDto result = postService.getPostDetail(postId);
+    PostDetailResponseDto detail = postService.getPostDetail(postId);
 
-    log.info("예상 postId: {}", postId);
-    log.info("실제 postId: {}", result.getId());
-    log.info("View_Count: {}", result.getViewCount());
-    log.info("Like_Count: {}", result.getLikeCount());
-    log.info("Share_Count: {}", result.getShareCount());
+    log.info("서비스 호출 후 viewCount: {} ", post.getViewCount()); // = 1
 
     // then
-    assertNotNull(result);
-    assertEquals(postId, result.getId());
-    assertEquals(2, result.getHashtags().size());
-    assertTrue(result.getHashtags().contains("개발"));
-    assertTrue(result.getHashtags().contains("공부"));
-    assertEquals(5, result.getLikeCount());
-    assertEquals(10, result.getShareCount());
-    assertEquals(10, result.getViewCount());
-
-    verify(post).view(); // 조회수 증가 메서드 1회 호출 확인
+    assertNotNull(detail);
+    assertEquals(postId, detail.getId());
+    assertEquals("코딩", detail.getHashtags().get(0));
+    assertEquals(1, post.getViewCount()); // viewCount 증가 수 재검증 0->1
+    assertEquals(0, post.getLikeCount());
+    assertEquals(0, post.getShareCount());
+    verify(postRepository, times(1)).findById(postId);
     // verify(post, times(2)).view(); 메서드 2회 호출 감지 시 (X)
   }
 
