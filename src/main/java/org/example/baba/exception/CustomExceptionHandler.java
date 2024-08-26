@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -61,7 +62,16 @@ public class CustomExceptionHandler {
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<String> handleMethodArgumentTypeMismatchException(
       MethodArgumentTypeMismatchException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(INVALID_INPUT_VALUE.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(
+            INVALID_REQUEST_PARAM_TYPE.getMessage() + ": " + ex.getParameter().getParameterName());
+  }
+
+  @ExceptionHandler(MissingServletRequestParameterException.class)
+  public ResponseEntity<String> handleMissingServletRequestParameterException(
+      MissingServletRequestParameterException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(NOT_NULL_REQUEST_PARAM.getMessage() + ": " + ex.getParameterName());
   }
 
   @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
