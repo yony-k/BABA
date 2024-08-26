@@ -116,4 +116,21 @@ public class PostServiceTest {
     verify(postRepository, times(1)).findByIdAndType(postId, type);
     assertEquals(initialLikeCount + 1, post.getLikeCount(), "좋아요 수 11이 되어야 합니다.");
   }
+
+  @Test
+  @DisplayName("게시글이 존재하지 않아 좋아요에 실패합니다.")
+  void like_post_failed_when_post_not_found() {
+    // given
+    Long postId = 1L;
+    SNSType type = SNSType.FACEBOOK;
+
+    when(postRepository.findByIdAndType(postId, type)).thenReturn(Optional.empty());
+
+    // when
+    CustomException exception =
+        assertThrows(CustomException.class, () -> postService.likePost(postId, type));
+
+    // then
+    assertEquals(PostExceptionType.NOT_FOUND_POST, exception.getExceptionType());
+  }
 }
