@@ -10,6 +10,7 @@ import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.domain.HashTag;
 import org.example.baba.domain.Post;
 import org.example.baba.domain.PostHashTagMap;
+import org.example.baba.domain.enums.SNSType;
 import org.example.baba.exception.CustomException;
 import org.example.baba.exception.exceptionType.PostExceptionType;
 import org.example.baba.repository.PostRepository;
@@ -27,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PostServiceTest {
 
   @Mock private PostRepository postRepository;
-
   @InjectMocks private PostService postService;
 
   @Test
@@ -93,5 +93,47 @@ public class PostServiceTest {
 
     // 설정해둔 예외 값과 일치하는 지 확인
     assertEquals(PostExceptionType.NOT_FOUND_POST, thrown.getExceptionType());
+  }
+
+  @Test
+  @DisplayName("게시글 좋아요를 클릭하여 좋아요 수가 1 증가합니다.")
+  void like_post_increases_count_by_one() {
+    // given
+    Long postId = 1L;
+    SNSType type = SNSType.FACEBOOK;
+    int initialLikeCount = 10;
+
+    // 실제 객체 생성
+    Post post = Post.builder().id(postId).type(type).likeCount(initialLikeCount).build();
+
+    // Mock 설정
+    when(postRepository.findByIdAndType(postId, type)).thenReturn(Optional.of(post));
+
+    // when
+    postService.likePost(postId, type);
+
+    // then
+    verify(postRepository, times(1)).findByIdAndType(postId, type);
+    assertEquals(initialLikeCount + 1, post.getLikeCount(), "좋아요 수 11이 되어야 합니다.");
+  }
+
+  @Test
+  @DisplayName("게시글이 존재하지 않아 좋아요에 실패합니다.")
+  void like_post_failed_when_post_not_found() {
+    // given
+    Long postId = 1L;
+    SNSType type = SNSType.FACEBOOK;
+
+    when(postRepository.findByIdAndType(postId, type)).thenReturn(Optional.empty());
+
+    // when
+    CustomException exception =
+        assertThrows(CustomException.class, () -> postService.likePost(postId, type));
+
+    // then
+    assertEquals(
+        PostExceptionType.NOT_FOUND_POST,
+        exception.getExceptionType(),
+        "좋아요 할 게시글이 존재하지 않아 NOT_FOUND_POST 예외가 발생합니다.");
   }
 }

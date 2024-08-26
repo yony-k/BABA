@@ -9,6 +9,7 @@ import org.example.baba.common.entity.BaseTimeEntity;
 import org.example.baba.domain.enums.SNSType;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,24 @@ public class Post extends BaseTimeEntity {
   private int likeCount;
 
   private int shareCount;
+
+  @Builder
+  public Post(
+      Long id,
+      SNSType type,
+      String title,
+      String content,
+      int viewCount,
+      int likeCount,
+      int shareCount) {
+    this.id = id;
+    this.type = type;
+    this.title = title;
+    this.content = content;
+    this.viewCount = viewCount;
+    this.likeCount = likeCount;
+    this.shareCount = shareCount;
+  }
 
   public void like() {
     this.likeCount++;
