@@ -1,8 +1,6 @@
 package org.example.baba.common.security.handler;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,21 +28,17 @@ public class AuthenticationFailureCustomHandler implements AuthenticationFailure
   public void onAuthenticationFailure(
       HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
       throws IOException, ServletException {
-    Map<String, String> errorResponse =
-        createErrorResponse(AuthorizedExceptionType.UNAUTHENTICATED);
+    String errorMessage = createErrorResponse(AuthorizedExceptionType.UNAUTHENTICATED);
 
     log.info("start AuthenticationFailureCustomHandler");
 
-    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    response.setContentType(MediaType.TEXT_PLAIN_VALUE);
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setCharacterEncoding("UTF-8");
-    response.getWriter().write(objectMapper.toStringValue(errorResponse));
+    response.getWriter().write(errorMessage);
   }
 
-  private Map<String, String> createErrorResponse(AuthorizedExceptionType exceptionCode) {
-    Map<String, String> errorResponse = new HashMap<>();
-    errorResponse.put("status", exceptionCode.getStatus().name());
-    errorResponse.put("message", exceptionCode.getMessage());
-    return errorResponse;
+  private String createErrorResponse(AuthorizedExceptionType exceptionCode) {
+    return exceptionCode.getMessage();
   }
 }
