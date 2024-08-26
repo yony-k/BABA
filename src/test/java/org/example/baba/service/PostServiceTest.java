@@ -131,6 +131,9 @@ public class PostServiceTest {
         assertThrows(CustomException.class, () -> postService.likePost(postId, type));
 
     // then
-    assertEquals(PostExceptionType.NOT_FOUND_POST, exception.getExceptionType());
+    assertEquals(
+        PostExceptionType.NOT_FOUND_POST,
+        exception.getExceptionType(),
+        "좋아요 할 게시글이 존재하지 않아 NOT_FOUND_POST 예외가 발생합니다.");
   }
 }
