@@ -2,6 +2,9 @@ package org.example.baba.service;
 
 import java.security.SecureRandom;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
 import org.example.baba.controller.dto.request.RegisterDTO;
 import org.example.baba.domain.ApprovalCode;
 import org.example.baba.domain.Register;
@@ -10,6 +13,9 @@ import org.example.baba.exception.exceptionType.RegisterExceptionType;
 import org.example.baba.repository.ApprovalCodeRepository;
 import org.example.baba.repository.MemberRepository;
 import org.example.baba.repository.RegisterRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +30,14 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final RegisterRepository registerRepository;
   private final ApprovalCodeRepository approvalCodeRepository;
+  private final JavaMailSender mailSender;
 
   private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   private static final int CODE_LENGTH = 6;
   private static final SecureRandom random = new SecureRandom();
+
+  @Value("${spring.mail.username}")
+  private String senderEmail;
 
   public static final String MEMBERKEY_PREFIX = "temporary:";
   public static final String APPROVALKEY_PREFIX = "approval:";
@@ -74,6 +84,7 @@ public class MemberService {
     approvalCodeRepository.save(approvalCode);
 
     // 가입승인 코드를 포함한 이메일 전송
+    sendEmail(registerDTO.getEmail(), randomCode);
     log.info("가입승인 코드 이메일 발송: {}, 가입승인 코드: {}", registerDTO.getEmail(), randomCode);
   }
 
@@ -87,6 +98,36 @@ public class MemberService {
       randomCode.append(CHARACTERS.charAt(index));
     }
     return randomCode.toString();
+  }
+
+  // 가입승인 메일 전송
+  public void sendEmail(String email, String randomCode) {
+    MimeMessage mimeMessage = createMessage(email, randomCode);
+    mailSender.send(mimeMessage);
+  }
+
+  // 메일 내용 생성
+  public MimeMessage createMessage(String email, String randomCode) {
+    MimeMessage mimeMessage = mailSender.createMimeMessage();
+    try {
+      MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+      // 보내야할 이메일 설정
+      mimeMessageHelper.setTo(email);
+      // 보내는 이메일 설정
+      mimeMessageHelper.setFrom(senderEmail);
+      // 메일 제목 설정
+      mimeMessageHelper.setSubject("가입승인 코드");
+      // 메일 본문 작성
+      String body = "";
+      body += "<h3>" + "요청하신 인증 번호입니다." + "</h3>";
+      body += "<h1>" + randomCode + "</h1>";
+      body += "<h3>" + "감사합니다." + "</h3>";
+      // 메일 본문 설정
+      mimeMessageHelper.setText(body, true);
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    }
+    return mimeMessage;
   }
 
   // 가입승인 코드 검증 및 정식 회원가입
