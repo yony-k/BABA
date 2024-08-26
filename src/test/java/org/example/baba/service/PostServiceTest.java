@@ -10,6 +10,7 @@ import org.example.baba.controller.dto.response.PostDetailResponseDto;
 import org.example.baba.domain.HashTag;
 import org.example.baba.domain.Post;
 import org.example.baba.domain.PostHashTagMap;
+import org.example.baba.domain.enums.SNSType;
 import org.example.baba.exception.CustomException;
 import org.example.baba.exception.exceptionType.PostExceptionType;
 import org.example.baba.repository.PostRepository;
@@ -95,6 +96,24 @@ public class PostServiceTest {
   }
 
   @Test
-  @DisplayName("게시글 좋아요를 성공합니다.")
-  void like_post() {}
+  @DisplayName("게시글 좋아요를 클릭하여 좋아요 수가 1 증가합니다.")
+  void like_post() {
+    // given
+    Long postId = 1L;
+    SNSType type = SNSType.FACEBOOK;
+    int initialLikeCount = 10;
+
+    // 실제 객체 생성
+    Post post = Post.builder().id(postId).type(type).likeCount(initialLikeCount).build();
+
+    // Mock 설정
+    when(postRepository.findByIdAndType(postId, type)).thenReturn(Optional.of(post));
+
+    // when
+    postService.likePost(postId, type);
+
+    // then
+    verify(postRepository, times(1)).findByIdAndType(postId, type);
+    assertEquals(initialLikeCount + 1, post.getLikeCount(), "좋아요 수 11이 되어야 합니다.");
+  }
 }

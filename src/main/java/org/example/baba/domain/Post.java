@@ -40,7 +40,14 @@ public class Post extends BaseTimeEntity {
 
   @Builder
   public Post(
-      SNSType type, String title, String content, int viewCount, int likeCount, int shareCount) {
+      Long id,
+      SNSType type,
+      String title,
+      String content,
+      int viewCount,
+      int likeCount,
+      int shareCount) {
+    this.id = id;
     this.type = type;
     this.title = title;
     this.content = content;
