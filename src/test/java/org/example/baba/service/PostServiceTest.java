@@ -27,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PostServiceTest {
 
   @Mock private PostRepository postRepository;
-
   @InjectMocks private PostService postService;
 
   @Test
@@ -94,4 +93,8 @@ public class PostServiceTest {
     // 설정해둔 예외 값과 일치하는 지 확인
     assertEquals(PostExceptionType.NOT_FOUND_POST, thrown.getExceptionType());
   }
+
+  @Test
+  @DisplayName("게시글 좋아요를 성공합니다.")
+  void like_post() {}
 }

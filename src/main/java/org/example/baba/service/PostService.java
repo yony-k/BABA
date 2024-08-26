@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PostService {
 
-  private final WebClient webClient;
   private final PostRepository postRepository;
 
   @Transactional
@@ -44,7 +42,6 @@ public class PostService {
                   .findByIdAndType(postId, type)
                   .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
           post.like();
-          postRepository.save(post);
         });
   }
 
@@ -60,7 +57,6 @@ public class PostService {
                   .findByIdAndType(postId, type)
                   .orElseThrow(() -> new CustomException(PostExceptionType.NOT_FOUND_POST));
           post.share();
-          postRepository.save(post);
         });
   }
 
@@ -82,22 +78,16 @@ public class PostService {
   }
 
   private void callApiProcess(HttpMethod method, String uri, Runnable onSuccess) {
-    WebClient.RequestHeadersSpec<?> requestHeadersSpec = webClient.method(method).uri(uri);
+    // API 를 실제로 호출을 하지 않고, 항상 성공으로 처리
+    log.info("callApiProcess - URI : " + uri);
 
-    requestHeadersSpec
-        .retrieve()
-        .toBodilessEntity()
-        .doOnSuccess(
-            response -> {
-              log.info("Success to call API - URI : " + uri);
-              onSuccess.run();
-            })
-        .doOnError(
-            error -> {
-              log.error("Failed to call API");
-              throw new CustomException(PostExceptionType.API_CALL_FAILED);
-            })
-        .block();
+    try {
+      onSuccess.run();
+      log.info("callApiProcess -  success");
+    } catch (Exception e) {
+      log.error("callApiProcess -  failure : ", e);
+      throw new CustomException(PostExceptionType.API_CALL_FAILED);
+    }
   }
 
   @Transactional
