@@ -120,7 +120,7 @@ public class PostServiceTest {
 
     // then
     verify(postRepository, times(1)).findByIdAndType(postId, type);
-    assertEquals(initialLikeCount + 1, post.getLikeCount(), "좋아요 수 11이 되어야 합니다.");
+    assertEquals(initialLikeCount + 1, post.getLikeCount(), "좋아요 수가 11이 되어야 합니다.");
   }
 
   @Test
@@ -147,7 +147,6 @@ public class PostServiceTest {
   @DisplayName("모든 쿼리 파라미터로 게시글 조회하여 성공합니다.")
   void getPosts_with_all_query_parameters() {
     // given
-
     // 쿼리 파라미터 준비
     String hashtag = "개발";
     SNSType type = SNSType.FACEBOOK;
@@ -251,7 +250,49 @@ public class PostServiceTest {
         "세 번째 게시글의 조회 수를 검증합니다.");
 
     assertEquals(type, result.getContent().get(0).getType(), "첫 번째 게시글의 SNS 타입을 검증합니다.");
-    assertEquals(type, result.getContent().get(1).getType(), "첫 번째 게시글의 SNS 타입을 검증합니다.");
-    assertEquals(type, result.getContent().get(2).getType(), "첫 번째 게시글의 SNS 타입을 검증합니다.");
+    assertEquals(type, result.getContent().get(1).getType(), "두 번째 게시글의 SNS 타입을 검증합니다.");
+    assertEquals(type, result.getContent().get(2).getType(), "세 번째 게시글의 SNS 타입을 검증합니다.");
+  }
+
+  @Test
+  @DisplayName("게시글 공유를 클릭하여 공유 수가 1 증가합니다.")
+  void share_post_increases_count_by_one() {
+    // given
+    Long postId = 1L;
+    SNSType type = SNSType.FACEBOOK;
+    int initialShareCount = 10;
+
+    // 실제 객체 생성
+    Post post = Post.builder().id(postId).type(type).shareCount(initialShareCount).build();
+
+    // Mock 설정
+    when(postRepository.findByIdAndType(postId, type)).thenReturn(Optional.of(post));
+
+    // when
+    postService.sharePost(postId, type);
+
+    // then
+    verify(postRepository, times(1)).findByIdAndType(postId, type);
+    assertEquals(initialShareCount + 1, post.getShareCount(), "공유 수가 11이 되어야 합니다.");
+  }
+
+  @Test
+  @DisplayName("게시글이 존재하지 않아 공유에 실패합니다.")
+  void share_post_failed_when_post_not_found() {
+    // given
+    Long postId = 1L;
+    SNSType type = SNSType.FACEBOOK;
+
+    when(postRepository.findByIdAndType(postId, type)).thenReturn(Optional.empty());
+
+    // when
+    CustomException exception =
+        assertThrows(CustomException.class, () -> postService.sharePost(postId, type));
+
+    // then
+    assertEquals(
+        PostExceptionType.NOT_FOUND_POST,
+        exception.getExceptionType(),
+        "공유 할 게시글이 존재하지 않아 NOT_FOUND_POST 예외가 발생합니다.");
   }
 }
