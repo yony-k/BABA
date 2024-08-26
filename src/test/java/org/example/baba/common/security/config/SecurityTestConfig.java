@@ -49,12 +49,12 @@ public class SecurityTestConfig {
 
   @Bean
   public AuthenticationFailureCustomHandler authenticationFailureCustomHandler() {
-    return new AuthenticationFailureCustomHandler(objectMapperUtils());
+    return new AuthenticationFailureCustomHandler();
   }
 
   @Bean
   public AuthenticationEntryPointHandler authenticationEntryPointHandler() {
-    return new AuthenticationEntryPointHandler(objectMapperUtils());
+    return new AuthenticationEntryPointHandler();
   }
 
   @Bean
@@ -64,7 +64,7 @@ public class SecurityTestConfig {
 
   @Bean
   public VerificationAccessDeniedHandler verificationAccessDeniedHandler() {
-    return new VerificationAccessDeniedHandler(objectMapperUtils());
+    return new VerificationAccessDeniedHandler();
   }
 
   @Bean
