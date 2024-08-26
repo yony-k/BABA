@@ -22,6 +22,20 @@ spring:
     redis:
       host: localhost
       port: 6379
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${smtpEmail}
+    password: ${smtpPassword}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          timeout: 20000
+          connectiontimeout: 20000
+          writetimeout: 20000
 jwt:
   prefix: 'Bearer '
   secret-key: ${JWT}
