@@ -134,6 +134,9 @@ public class PostService {
               .type(post.getType())
               .title(post.getTitle())
               .content(post.getContent())
+              .likeCount(post.getLikeCount())
+              .viewCount(post.getViewCount())
+              .shareCount(post.getShareCount())
               .hashTags(hashTags) // 해시태그 포함
               .build();
         });
