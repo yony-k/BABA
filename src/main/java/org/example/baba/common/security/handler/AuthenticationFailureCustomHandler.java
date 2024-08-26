@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.example.baba.common.utils.translator.ObjectMapperUtils;
 import org.example.baba.exception.exceptionType.AuthorizedExceptionType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,8 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationFailureCustomHandler implements AuthenticationFailureHandler {
-
-  private final ObjectMapperUtils objectMapper;
 
   @Override
   public void onAuthenticationFailure(
