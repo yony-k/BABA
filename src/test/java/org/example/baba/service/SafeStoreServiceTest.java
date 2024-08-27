@@ -1,6 +1,9 @@
 package org.example.baba.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -21,13 +24,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class RegisterServiceTest {
+public class SafeStoreServiceTest {
 
   @Mock private RegisterRepository registerRepository;
   @Mock private MemberRepository memberRepository;
   @Mock private ApprovalCodeRepository approvalCodeRepository;
 
-  @InjectMocks private MemberService memberService;
+  @InjectMocks private SafeStoreService safeStoreService;
 
   @BeforeEach
   void setUp() {
@@ -53,12 +56,12 @@ public class RegisterServiceTest {
     when(memberRepository.existsByMemberName("김민지")).thenReturn(true);
 
     // when & then
-    // memberService의 메소드 사용시 발생할 예외 클래스 확인
+    // safeStoreService의 메소드 사용시 발생할 예외 클래스 확인
     CustomException thrown =
         assertThrows(
             CustomException.class,
             () -> {
-              memberService.existInDB(registerDTO);
+              safeStoreService.existInDB(registerDTO);
             });
 
     // 예외 메세지 확인
@@ -87,7 +90,7 @@ public class RegisterServiceTest {
         assertThrows(
             CustomException.class,
             () -> {
-              memberService.existInDB(registerDTO);
+              safeStoreService.existInDB(registerDTO);
             });
 
     // 예외 메세지 확인
@@ -111,7 +114,7 @@ public class RegisterServiceTest {
     when(memberRepository.existsByEmail("sungmin@gmail.com")).thenReturn(false);
 
     // when
-    memberService.existInDB(registerDTO);
+    safeStoreService.existInDB(registerDTO);
 
     // then
     // 아무런 예외가 발생하지 않아야 함
@@ -135,7 +138,7 @@ public class RegisterServiceTest {
 
     // when & then
     CustomException thrown =
-        assertThrows(CustomException.class, () -> memberService.existInRedis(registerDTO));
+        assertThrows(CustomException.class, () -> safeStoreService.existInRedis(registerDTO));
     // 예외 메세지 확인
     assertEquals(RegisterExceptionType.DUPLICATED_MEMBER_NAME.getMessage(), thrown.getMessage());
   }
@@ -152,12 +155,12 @@ public class RegisterServiceTest {
             .email("minji12@gmail.com")
             .build();
 
-    when(registerRepository.existsById(MemberService.MEMBERKEY_PREFIX + "minji12@gmail.com"))
+    when(registerRepository.existsById(SafeStoreService.MEMBERKEY_PREFIX + "minji12@gmail.com"))
         .thenReturn(true);
 
     // when & then
     CustomException thrown =
-        assertThrows(CustomException.class, () -> memberService.existInRedis(registerDTO));
+        assertThrows(CustomException.class, () -> safeStoreService.existInRedis(registerDTO));
     // 예외 메세지 확인
     assertEquals(RegisterExceptionType.EMAIL_ALREADY_IN_PROGRESS.getMessage(), thrown.getMessage());
   }
@@ -175,20 +178,20 @@ public class RegisterServiceTest {
             .build();
 
     when(registerRepository.existsByMemberName("김민지")).thenReturn(true);
-    when(registerRepository.existsById(MemberService.MEMBERKEY_PREFIX + "minji12@gmail.com"))
+    when(registerRepository.existsById(SafeStoreService.MEMBERKEY_PREFIX + "minji12@gmail.com"))
         .thenReturn(true);
 
     // when
-    memberService.existInDB(registerDTO);
+    safeStoreService.existInDB(registerDTO);
 
     // then
     // 아무런 예외가 발생하지 않아야 함
   }
 
-  // sendApprovalCode 메소드 테스트
+  // tempRegister 메소드 테스트
 
   @Test
-  public void sendApprovalCodeTest() {
+  public void tempRegister() {
     // given
     RegisterDTO registerDTO =
         RegisterDTO.builder()
@@ -197,21 +200,17 @@ public class RegisterServiceTest {
             .email("minji12@gmail.com")
             .build();
 
-    String fixedCode = "123456";
+    String randomCode = "123456";
 
-    // generateRandomCode 를 테스트 코드 쪽에서 수행하여 fixedCode 를 리턴하기 위해서 spy 사용
-    MemberService spyMemberService = spy(memberService);
-    doReturn(fixedCode).when(spyMemberService).generateRandomCode();
-
-    Register expectedRegister = registerDTO.toEntity(MemberService.MEMBERKEY_PREFIX);
+    Register expectedRegister = registerDTO.toEntity(SafeStoreService.MEMBERKEY_PREFIX);
     ApprovalCode expectedApprovalCode =
         ApprovalCode.builder()
-            .approvalKey(MemberService.APPROVALKEY_PREFIX + fixedCode)
+            .approvalKey(SafeStoreService.APPROVALKEY_PREFIX + randomCode)
             .email(registerDTO.getEmail())
             .build();
 
     // when
-    spyMemberService.sendApprovalCode(registerDTO);
+    safeStoreService.tempRegister(registerDTO, randomCode);
 
     // then
     verify(registerRepository).save(eq(expectedRegister));
@@ -231,23 +230,23 @@ public class RegisterServiceTest {
 
     Register register =
         Register.builder()
-            .email(MemberService.MEMBERKEY_PREFIX + email)
+            .email(SafeStoreService.MEMBERKEY_PREFIX + email)
             .memberName(memberName)
             .password(password)
             .build();
     ApprovalCode approvalCode =
         ApprovalCode.builder()
-            .approvalKey(MemberService.APPROVALKEY_PREFIX + Code)
+            .approvalKey(SafeStoreService.APPROVALKEY_PREFIX + Code)
             .email(email)
             .build();
 
-    when(registerRepository.findById(MemberService.MEMBERKEY_PREFIX + email))
+    when(registerRepository.findById(SafeStoreService.MEMBERKEY_PREFIX + email))
         .thenReturn(Optional.of(register));
-    when(approvalCodeRepository.findById(MemberService.APPROVALKEY_PREFIX + Code))
+    when(approvalCodeRepository.findById(SafeStoreService.APPROVALKEY_PREFIX + Code))
         .thenReturn(Optional.of(approvalCode));
 
     // when
-    memberService.confirmApprovalCode(Code);
+    safeStoreService.confirmApprovalCode(Code);
 
     // then
     verify(memberRepository, times(1))
@@ -267,12 +266,12 @@ public class RegisterServiceTest {
     // given
     String code = "123456";
 
-    when(approvalCodeRepository.findById(MemberService.APPROVALKEY_PREFIX + code))
+    when(approvalCodeRepository.findById(SafeStoreService.APPROVALKEY_PREFIX + code))
         .thenReturn(Optional.empty());
 
     // when && then
     CustomException thrown =
-        assertThrows(CustomException.class, () -> memberService.confirmApprovalCode(code));
+        assertThrows(CustomException.class, () -> safeStoreService.confirmApprovalCode(code));
 
     assertEquals(RegisterExceptionType.NOT_FOUND_CODE.getMessage(), thrown.getMessage());
     verify(registerRepository, never()).findById(any());
@@ -290,18 +289,18 @@ public class RegisterServiceTest {
 
     ApprovalCode approvalCode =
         ApprovalCode.builder()
-            .approvalKey(MemberService.APPROVALKEY_PREFIX + code)
+            .approvalKey(SafeStoreService.APPROVALKEY_PREFIX + code)
             .email(email)
             .build();
 
-    when(approvalCodeRepository.findById(MemberService.APPROVALKEY_PREFIX + code))
+    when(approvalCodeRepository.findById(SafeStoreService.APPROVALKEY_PREFIX + code))
         .thenReturn(Optional.of(approvalCode));
-    when(registerRepository.findById(MemberService.MEMBERKEY_PREFIX + email))
+    when(registerRepository.findById(SafeStoreService.MEMBERKEY_PREFIX + email))
         .thenReturn(Optional.empty());
 
     // when && then
     CustomException thrown =
-        assertThrows(CustomException.class, () -> memberService.confirmApprovalCode(code));
+        assertThrows(CustomException.class, () -> safeStoreService.confirmApprovalCode(code));
 
     assertEquals(RegisterExceptionType.NOT_FOUND_MEMBER.getMessage(), thrown.getMessage());
     verify(memberRepository, never()).save(any());
@@ -319,25 +318,25 @@ public class RegisterServiceTest {
 
     ApprovalCode approvalCode =
         ApprovalCode.builder()
-            .approvalKey(MemberService.APPROVALKEY_PREFIX + code)
+            .approvalKey(SafeStoreService.APPROVALKEY_PREFIX + code)
             .email(email)
             .build();
 
     Register register =
         Register.builder()
-            .email(MemberService.MEMBERKEY_PREFIX + mismatchedEmail)
+            .email(SafeStoreService.MEMBERKEY_PREFIX + mismatchedEmail)
             .memberName("김민지")
             .password("Valid1234!")
             .build();
 
-    when(approvalCodeRepository.findById(MemberService.APPROVALKEY_PREFIX + code))
+    when(approvalCodeRepository.findById(SafeStoreService.APPROVALKEY_PREFIX + code))
         .thenReturn(Optional.of(approvalCode));
-    when(registerRepository.findById(MemberService.MEMBERKEY_PREFIX + email))
+    when(registerRepository.findById(SafeStoreService.MEMBERKEY_PREFIX + email))
         .thenReturn(Optional.of(register));
 
     // when & then
     CustomException thrown =
-        assertThrows(CustomException.class, () -> memberService.confirmApprovalCode(code));
+        assertThrows(CustomException.class, () -> safeStoreService.confirmApprovalCode(code));
 
     assertEquals(RegisterExceptionType.DATA_CONSISTENCY_ERROR.message(), thrown.getMessage());
     verify(memberRepository, never()).save(any());
