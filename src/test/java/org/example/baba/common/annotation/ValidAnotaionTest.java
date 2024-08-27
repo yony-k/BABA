@@ -1,4 +1,4 @@
-package org.example.baba.common;
+package org.example.baba.common.annotation;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
