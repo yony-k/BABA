@@ -1,23 +1,7 @@
 package org.example.baba.service;
 
-import java.security.SecureRandom;
-
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-
 import org.example.baba.controller.dto.request.RegisterDTO;
-import org.example.baba.domain.ApprovalCode;
-import org.example.baba.domain.Register;
-import org.example.baba.exception.CustomException;
-import org.example.baba.exception.exceptionType.RegisterExceptionType;
-import org.example.baba.repository.ApprovalCodeRepository;
-import org.example.baba.repository.MemberRepository;
-import org.example.baba.repository.RegisterRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +22,7 @@ public class MemberService {
     // 임시 사용자 정보 및 가입승인 코드 Redis에 저장
     safeStoreService.tempRegister(registerDTO, randomCode);
     // 가입승인 코드 메일 전송
-    mailService.sendEmail(registerDTO.getEmail(), randomCode);
+    mailService.sendCode(registerDTO.getEmail(), randomCode);
   }
 
   public void confirmApprovalCode(String approvalCode) {
