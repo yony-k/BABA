@@ -21,11 +21,6 @@ public class MemberController {
   // 가입승인 요청 및 임시 회원가입
   @PostMapping
   public ResponseEntity<String> registerRequest(@Valid @RequestBody RegisterDTO registerDTO) {
-    // DB에서 중복 검사
-    memberService.existInDB(registerDTO);
-    // Redis에서 중복 검사
-    memberService.existInRedis(registerDTO);
-    // 가입승인 코드 전송
     memberService.sendApprovalCode(registerDTO);
     return ResponseEntity.ok("인증 코드가 발송되었습니다.");
   }
