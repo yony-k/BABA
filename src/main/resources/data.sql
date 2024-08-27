@@ -1,12 +1,16 @@
+-- 시퀀스 생성
+CREATE SEQUENCE MEMBER_SEQ START WITH 1;
+
+-- MEMBER 테이블 수정
+ALTER TABLE MEMBER ALTER COLUMN MEMBER_ID SET DEFAULT NEXT VALUE FOR MEMBER_SEQ;
+
 -- MEMBER 테이블 데이터 삽입 (5명)
-INSERT INTO MEMBER (MEMBER_ID, EMAIL, MEMBER_NAME, PASSWORD, ROLE) VALUES
-                                                                       (1, 'kimminji@example.com', '김민지', '{noop}password1', 'USER'),
-                                                                       (2, 'kimyuna@example.com', '김유나', '{noop}password2', 'USER'),
-                                                                       (3, 'leejinsuk@example.com', '이진석', '{noop}password3', 'USER'),
-                                                                       (4, 'parkjihoon@example.com', '박지훈', '{noop}password4', 'USER'),
-                                                                       (5, 'choisoo@example.com', '최수영', '{noop}password5', 'USER');
-
-
+INSERT INTO MEMBER (EMAIL, MEMBER_NAME, PASSWORD, ROLE) VALUES
+                                                                       ('kimminji@example.com', '김민지', '{noop}password1', 'USER'),
+                                                                       ('kimyuna@example.com', '김유나', '{noop}password2', 'USER'),
+                                                                       ('leejinsuk@example.com', '이진석', '{noop}password3', 'USER'),
+                                                                       ('parkjihoon@example.com', '박지훈', '{noop}password4', 'USER'),
+                                                                       ('choisoo@example.com', '최수영', '{noop}password5', 'USER');
 -- POST 테이블 데이터 삽입 (20개)
 INSERT INTO POST (ID, CONTENT, LIKE_COUNT, SHARE_COUNT, TITLE, TYPE, MEMBER_ID, VIEW_COUNT, CREATED_AT, UPDATED_AT) VALUES
                                                                                                                         (1, '아침에 남산 타워에서 보는 서울 즥이네!', 2, 0, '남산', 'INSTAGRAM', 1, 44, '2024-07-21T10:00:00', '2024-08-21T10:00:00'),
