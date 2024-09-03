@@ -33,7 +33,7 @@
 
 <details>
 <summary><strong>이슈 관리</strong></summary>
-![issue](https://github.com/user-attachments/assets/f74c4fb2-15ac-4a68-b040-5241ce8d1e29)
+<img src=https://github.com/user-attachments/assets/f74c4fb2-15ac-4a68-b040-5241ce8d1e29>
 
 </details>
 
@@ -135,7 +135,7 @@
 
 <details>
 <summary><strong>ERD</strong></summary>
-![BABA](https://github.com/user-attachments/assets/04cf41ff-91ac-4f11-a125-c6ca30743947)
+<img src=https://github.com/user-attachments/assets/bb262f5f-908b-46a4-9787-1d58ccdd0f80>
 </details>
 
 <details>
@@ -260,20 +260,32 @@ BABA
 
 ## 기능 구현
 
-### 사용자 인증 시스템
-- 사용자 회원가입 api
-- 사용자 가입승인 api
-- 사용자 로그인 api
-- 비밀번호 암호화
-- jwt token
+### - 사용자 인증 시스템
 
-### RESTful API
-- 게시물 상세 api
-- 게시물 목록 API
-- 게시물 좋아요 api
-- 게시물 공유 api
+#### 사용자 회원가입 api
 
-### 통계
+#### 사용자 가입승인 api
+
+#### 사용자 로그인 api
+
+#### 비밀번호 암호화
+
+#### JWT token
+
+
+### - RESTful API
+
+#### 게시물 상세 api
+- 특정 게시글의 모든 필드 값을 확인할 수 있는 페이지
+- API 호출 시, 해당 게시물 조회수가 1 증가하는 기능 구현
+#### 게시물 목록 api
+
+#### 게시물 좋아요 api
+
+#### 게시물 공유 api
+
+
+### - 통계
 - 기간 내 해당 해시태그가 포함된 게시물을 일자별로 제공
 - 기간 내 해당 해시태그가 포함된 게시물을 시간별로 제공
 
