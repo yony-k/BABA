@@ -10,6 +10,7 @@ import org.example.baba.exception.exceptionType.RegisterExceptionType;
 import org.example.baba.repository.ApprovalCodeRepository;
 import org.example.baba.repository.MemberRepository;
 import org.example.baba.repository.RegisterRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class SafeStoreService {
   private final MemberRepository memberRepository;
   private final RegisterRepository registerRepository;
   private final ApprovalCodeRepository approvalCodeRepository;
+  private final PasswordEncoder passwordEncoder;
   // 가입승인 코드 생성에 사용되는 클래스
   private static final SecureRandom random = new SecureRandom();
 
@@ -68,8 +70,15 @@ public class SafeStoreService {
             .email(registerDTO.getEmail())
             .build();
 
+    RegisterDTO saveRegisterDTO =
+        RegisterDTO.builder()
+            .memberName(registerDTO.getMemberName())
+            .email(registerDTO.getEmail())
+            .password(passwordEncoder.encode(registerDTO.getPassword()))
+            .build();
+
     // 사용자 정보 임시 저장
-    registerRepository.save(registerDTO.toEntity(MEMBERKEY_PREFIX));
+    registerRepository.save(saveRegisterDTO.toEntity(MEMBERKEY_PREFIX));
     // 가입승인 코드 저장
     approvalCodeRepository.save(approvalCode);
   }
