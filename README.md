@@ -1,13 +1,23 @@
-## 프로젝트 개요
+# 📑 목차
 
-### 기술 스택
+1. [프로젝트 개요](#1-프로젝트-개요)
+2. [프로젝트 관리](#2-프로젝트-관리)
+3. [기술 문서](#3-기술-문서)
+4. [기능 구현](#4-기능-구현)
+5. [트러블 슈팅](#5-트러블-슈팅)
+
+</br>
+
+## 1. 프로젝트 개요
+
+### ⚙️기술 스택
 ![java](https://img.shields.io/badge/Java-17-blue?logo=java)
 ![spring-boot](https://img.shields.io/badge/SpringBoot-3.2.2-grren?logo=springboot)
 
-### 요구사항
+### ✔️ 요구사항
 [소셜 미디어 통합 Feed 서비스](https://www.notion.so/Feed-a419bee31618497db0c4d5c8486ef8a9?pvs=21)
 
-### 팀 구성
+### 👩🏻‍💻 팀 구성
 
 | 이름  | 이메일 | 깃허브 | 역할                                     |
 |-----| --- | --- |----------------------------------------|
@@ -19,9 +29,9 @@
 
 </br>
 
-## 프로젝트 관리
+## 2. 프로젝트 관리
 
-### 일정
+### 🗓️ 일정
 | 날짜 | 활동 | 설명 |
 | --- | --- | --- |
 | 24.08.20 ~ 24.08.21 | 협업 기초 마련  | 팀 구성, 팀 규칙, 컨벤션(commit, PR, merge, issue) 정립 |
@@ -33,7 +43,7 @@
 
 <details>
 <summary><strong>이슈 관리</strong></summary>
-<img src=https://github.com/user-attachments/assets/f74c4fb2-15ac-4a68-b040-5241ce8d1e29>
+![issue](https://github.com/user-attachments/assets/f74c4fb2-15ac-4a68-b040-5241ce8d1e29)
 
 </details>
 
@@ -114,9 +124,9 @@
 
 </br>
 
-## 기술 문서
+## 3. 기술 문서
 
-### API 명세서
+### 📄 API 명세서
 
 [API 명세서 자세히보기](https://www.notion.so/API-197df8e5668f42baa79c96ffac873a47?pvs=21)
 
@@ -135,7 +145,7 @@
 
 <details>
 <summary><strong>ERD</strong></summary>
-<img src=https://github.com/user-attachments/assets/bb262f5f-908b-46a4-9787-1d58ccdd0f80>
+![BABA](https://github.com/user-attachments/assets/04cf41ff-91ac-4f11-a125-c6ca30743947)
 </details>
 
 <details>
@@ -258,37 +268,161 @@ BABA
 
 </br>
 
-## 기능 구현
+## 4. 기능 구현
 
-### - 사용자 인증 시스템
+### ⭐ 사용자 인증 시스템
 
-#### 사용자 회원가입 api
+#### ✨ 사용자 회원가입(담당: 김연희)
+- 회원가입시 작성한 사용자 정보 유효성 검증 기능 구현
+- 이메일, 계정명 중복 검증 기능 구현
+- Redis를 활용한 임시 회원가입 기능 구현
+- 비밀번호 BCrypt 처리 기능 구현
+- 가입승인 코드 일치 시 정식 회원가입 기능 구현
+<details>
+    <summary>구현 의도</summary>
+    <div>
+        <div><strong>유효성 검증 기능</strong></div>
+        <div>사용자 정보를 컨트롤러에서 매개변수로 받을 때 자동으로 유효성 검증이 이루어지도록 @Valid 어노테이션을 사용하여 기능을 구현했습니다. 비밀번호의 제약조건이 기존 어노테이션으로 검증이 불가하다고 판단되어 커스텀 어노테이션을 구현했고 덕분에 코드의 재사용이 가능해져 다른 프로젝트에서도 사용할 수 있게 되었습니다.</div>
+        <div><strong>임시 회원가입 기능</strong></div>
+        <div>사용자가 가입승인 코드만 받고 화면에서 벗어날 경우를 가정하여 가입승인 코드를 입력할 때 또 다시 정보를 입력할 필요가 없도록 가입승인 코드를 발급할 때 사용자 정보를 redis에 임시로 저장하는 방법을 택했습니다.</div>
+    </div>
+</details>
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/main/java/org/example/baba/controller/MemberController.java" target="_blank">MemberController</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/main/java/org/example/baba/service/MemberService.java" target="_blank">MemberService</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/main/java/org/example/baba/service/SafeStoreService.java" target="_blank">SafeStoreService</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/main/java/org/example/baba/common/anotation/ValidPassword.java" target="_blank">ValidPassword</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/main/java/org/example/baba/common/anotation/PasswordValidator.java" target="_blank">PasswordValidator</a>
+    </div>
+</details>
 
-#### 사용자 가입승인 api
+#### ✨ 사용자 가입승인(담당: 김연희)
+- SMTP를 활용한 가입승인 코드 발송 기능 구현
+- 사용자가 재발송한 가입승인 코드와 Redis 에 저장된 가입승인 코드 비교 기능 구현
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/main/java/org/example/baba/service/MailService.java" target="_blank">MailService</a>
+    </div>
+</details>
 
-#### 사용자 로그인 api
-
-#### 비밀번호 암호화
-
-#### JWT token
-
-
-### - RESTful API
-
-#### 게시물 상세 api
-- 특정 게시글의 모든 필드 값을 확인할 수 있는 페이지
-- API 호출 시, 해당 게시물 조회수가 1 증가하는 기능 구현
-#### 게시물 목록 api
-
-#### 게시물 좋아요 api
-
-#### 게시물 공유 api
-
-
-### - 통계
-- 기간 내 해당 해시태그가 포함된 게시물을 일자별로 제공
-- 기간 내 해당 해시태그가 포함된 게시물을 시간별로 제공
+#### ✨ 사용자 로그인(담당: 유서정)
+- 스프링 시큐리티 + JWT 방식을 사용한 로그인 기능 구현
+- 핸들러를 이용한 필터체인 내 예외처리
+- refreshToken을 활용한 토큰 재발급 기능 구현
 
 </br>
 
-## 트러블 슈팅
+### ⭐ RESTful API
+
+#### ✨ 게시물 상세(담당: 안소나)
+- 특정 게시글의 모든 필드 값을 확인할 수 있는 페이지
+- API 호출 시, 해당 게시물 조회수가 1 증가하는 기능 구현
+<details>
+    <summary>구현 의도</summary>
+    <div>
+        <div><strong>제목 1</strong></div>
+        <div>내용 1</div>
+        <div><strong>제목 2</strong></div>
+        <div>내용 2</div>
+    </div>
+</details>
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+    </div>
+</details>
+
+#### ✨ 게시물 목록(담당: 유하진)
+- 채워주세요
+<details>
+    <summary>구현 의도</summary>
+    <div>
+        <div><strong>제목 1</strong></div>
+        <div>내용 1</div>
+        <div><strong>제목 2</strong></div>
+        <div>내용 2</div>
+    </div>
+</details>
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+    </div>
+</details>
+
+#### ✨ 게시물 좋아요(담당: 유하진)
+- 채워주세요
+<details>
+    <summary>구현 의도</summary>
+    <div>
+        <div><strong>제목 1</strong></div>
+        <div>내용 1</div>
+        <div><strong>제목 2</strong></div>
+        <div>내용 2</div>
+    </div>
+</details>
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+    </div>
+</details>
+
+#### ✨ 게시물 공유(담당: 유하진)
+- 채워주세요
+<details>
+    <summary>구현 의도</summary>
+    <div>
+        <div><strong>제목 1</strong></div>
+        <div>내용 1</div>
+        <div><strong>제목 2</strong></div>
+        <div>내용 2</div>
+    </div>
+</details>
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+    </div>
+</details>
+
+</br>
+
+### ⭐ 통계(담당: 김성은)
+- 기간 내 해당 해시태그가 포함된 게시물을 일자별로 제공
+- 기간 내 해당 해시태그가 포함된 게시물을 시간별로 제공
+<details>
+    <summary>구현 의도</summary>
+    <div>
+        <div><strong>제목 1</strong></div>
+        <div>내용 1</div>
+        <div><strong>제목 2</strong></div>
+        <div>내용 2</div>
+    </div>
+</details>
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+    </div>
+</details>
+
+</br>
+
+## 5. 트러블 슈팅
+
+👉[비밀번호 검증 조건 충돌](https://www.notion.so/6ce83c5e61254bbbab80a26ad6eea811)
