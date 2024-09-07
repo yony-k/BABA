@@ -425,4 +425,6 @@ BABA
 
 ## 5. 트러블 슈팅
 
+👉[연관관계 매핑 vs ID 매핑](https://www.notion.so/vs-ID-33e806be404f4962a0d2cd569f4c7040)
 👉[비밀번호 검증 조건 충돌](https://www.notion.so/6ce83c5e61254bbbab80a26ad6eea811)
+👉[단일 분리 책임](https://www.notion.so/23b9a48b2e0b4428b26a9af89f743009)
