@@ -1,5 +1,4 @@
-# 📑 목차
-
+# BABA
 1. [프로젝트 개요](#1-프로젝트-개요)
 2. [프로젝트 관리](#2-프로젝트-관리)
 3. [기술 문서](#3-기술-문서)
@@ -13,6 +12,7 @@
 ### ⚙️기술 스택
 ![java](https://img.shields.io/badge/Java-17-blue?logo=java)
 ![spring-boot](https://img.shields.io/badge/SpringBoot-3.2.2-grren?logo=springboot)
+![mysql](https://img.shields.io/badge/MySQL-latest-blue?logo=mysql)
 
 ### ✔️ 요구사항
 [소셜 미디어 통합 Feed 서비스](https://www.notion.so/Feed-a419bee31618497db0c4d5c8486ef8a9?pvs=21)
@@ -31,7 +31,10 @@
 
 ## 2. 프로젝트 관리
 
-### 🗓️ 일정
+
+<details>
+<summary><strong>일정</strong></summary>
+
 | 날짜 | 활동 | 설명 |
 | --- | --- | --- |
 | 24.08.20 ~ 24.08.21 | 협업 기초 마련  | 팀 구성, 팀 규칙, 컨벤션(commit, PR, merge, issue) 정립 |
@@ -39,7 +42,7 @@
 | 24.08.25 ~ 24.08.26  | 테스트 코드 및 문서 작성 | 테스트 코드 작성, API 명세서, 프로젝트 페이지, README 작성 |
 | 24.08.27 | 코드 리뷰 및 배포  | 최종 코드 리뷰 및 배포 |
 
-</br>
+</details>
 
 <details>
 <summary><strong>이슈 관리</strong></summary>
@@ -54,7 +57,7 @@
     - **전략**
 
       | Branch Type | Description |
-      | --- | --- |
+                              | --- | --- |
       | `dev` | 주요 개발 branch, `main`으로 merge 전 거치는 branch |
       | `feature` | 각자 개발할 branch, 기능 단위로 생성하기, 할 일 issue 등록 후 branch 생성 및 작업 |
 
@@ -97,29 +100,29 @@
     ```
 
 - **PR**
-  - **규칙**
-    - branch 작업 완료 후 PR 보내기
-    - 항상 local에서 충돌 해결 후 remote에 올리기
-    - PR 후 디스코드에 공유하기
-    - 당일 PR은 당일에 리뷰하기
-    - 최소 2명 이상의 동의를 받으면 merge하기
-    - review 반영 후, 본인이 merge
-    ```bash
-        > [MERGE] {브랜치이름}/{#이슈번호}
-        ex) [MERGE] setting/#1
-    ```
-  - **Template**
-    ```bash
-    📱 Description
-    <!-- 진행할 작업을 설명해주세요 -->
-    
-    📱 To-do
-    <!-- 작업을 수행하기 위해 해야할 태스크를 작성해주세요 -->
-    [ ] todo1
-    
-    📱 ETC
-    <!-- 특이사항 및 예정 개발 일정을 작성해주세요 -->
-    ```
+    - **규칙**
+        - branch 작업 완료 후 PR 보내기
+        - 항상 local에서 충돌 해결 후 remote에 올리기
+        - PR 후 디스코드에 공유하기
+        - 당일 PR은 당일에 리뷰하기
+        - 최소 2명 이상의 동의를 받으면 merge하기
+        - review 반영 후, 본인이 merge
+      ```bash
+          > [MERGE] {브랜치이름}/{#이슈번호}
+          ex) [MERGE] setting/#1
+      ```
+    - **Template**
+      ```bash
+      📱 Description
+      <!-- 진행할 작업을 설명해주세요 -->
+      
+      📱 To-do
+      <!-- 작업을 수행하기 위해 해야할 태스크를 작성해주세요 -->
+      [ ] todo1
+      
+      📱 ETC
+      <!-- 특이사항 및 예정 개발 일정을 작성해주세요 -->
+      ```
 </details>
 
 </br>
@@ -317,7 +320,7 @@ BABA
 
 ### ⭐ RESTful API
 
-#### ✨ 게시물 상세(담당: 안소나)
+#### ✨ 게시물 상세 (담당: 안소나)
 - 특정 게시글의 모든 필드 값을 확인할 수 있는 페이지
 - API 호출 시, 해당 게시물 조회수가 1 증가하는 기능 구현
 <details>
@@ -331,74 +334,48 @@ BABA
 </details>
 <details>
     <summary>구현 코드</summary>
-    <div>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-    </div>
 </details>
 
-#### ✨ 게시물 목록(담당: 유하진)
-- 채워주세요
+#### ✨ 게시물 목록 (담당: 유하진)
+- 여러 쿼리 파라미터를 받아 게시물 목록을 조회합니다.
+- 해시태그, 검색기준, 검색키워드, 정렬기준, 정렬방향, SNS 타입, 페이지 번호, 페이지 크기를 쿼리 파라미터로 받습니다.
 <details>
     <summary>구현 의도</summary>
     <div>
-        <div><strong>제목 1</strong></div>
-        <div>내용 1</div>
-        <div><strong>제목 2</strong></div>
-        <div>내용 2</div>
+        <div><strong>ORM 대신 쿼리 사용</strong></div>
+        <div>여러 테이블을 JOIN 하고 동적 조건을 처리해야 하기 때문에 ORM 대신 직접 쿼리를 작성했습니다. 추후에는 QueryDSL 을 도입하여 동적 쿼리 로직을 리팩토링할 계획입니다.</div>
     </div>
 </details>
 <details>
     <summary>구현 코드</summary>
     <div>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/57/files" target="_blank">게시물 목록 조회</a> </br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/73/files" target="_blank">게시물 목록 조회 테스트 코드</a>
     </div>
 </details>
 
-#### ✨ 게시물 좋아요(담당: 유하진)
-- 채워주세요
+
+#### ✨ 게시물 좋아요, 게시물 공유 (담당: 유하진)
+- 게시물 좋아요 수를 1 증가하는 기능을 구현했습니다.
+- 게시물 공유 수를 1 증가하는 기능을 구현했습니다.
 <details>
     <summary>구현 의도</summary>
     <div>
-        <div><strong>제목 1</strong></div>
-        <div>내용 1</div>
-        <div><strong>제목 2</strong></div>
-        <div>내용 2</div>
+        <div><strong>외부 API 호출 로직 단순화</strong></div>
+        <div>게시물에 좋아요/공유를 누르면 원래 해당 SNS의 게시물 좋아요/공유 수를 증가시키는 API를 호출해야 합니다. 현재는 실제 서비스가 아니기 때문에 외부 API를 호출하지 않지만, 추후 실제 API 호출을 쉽게 추가할 수 있도록 설계되었습니다.</div></br>
+        <strong>Runnable 을 사용한 후속 작업 처리</strong></div>
+        <div>외부 API 호출 성공 후, 실행될 작업을 Runnable 로 명시하여 callApiProcess()에게 전달하였습니다. 이를 통해 후속 작업을 유연하게 처리할 수 있도록 설계하였습니다.</div></br>
     </div>
 </details>
 <details>
     <summary>구현 코드</summary>
     <div>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/31/files" target="_blank">게시물 좋아요</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/71/files" target="_blank">게시물 좋아요 테스트 코드</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/36/files" target="_blank">게시물 공유</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/72/files" target="_blank">게시물 공유 테스트 코드</a></br>
     </div>
 </details>
-
-#### ✨ 게시물 공유(담당: 유하진)
-- 채워주세요
-<details>
-    <summary>구현 의도</summary>
-    <div>
-        <div><strong>제목 1</strong></div>
-        <div>내용 1</div>
-        <div><strong>제목 2</strong></div>
-        <div>내용 2</div>
-    </div>
-</details>
-<details>
-    <summary>구현 코드</summary>
-    <div>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-        <a href="클래스 주소" target="_blank">클래스 이름</a></br>
-    </div>
-</details>
-
-</br>
 
 ### ⭐ 통계(담당: 김성은)
 - 기간 내 해당 해시태그가 포함된 게시물을 일자별로 제공
@@ -426,5 +403,7 @@ BABA
 ## 5. 트러블 슈팅
 
 👉[연관관계 매핑 vs ID 매핑](https://www.notion.so/vs-ID-33e806be404f4962a0d2cd569f4c7040)
+
 👉[비밀번호 검증 조건 충돌](https://www.notion.so/6ce83c5e61254bbbab80a26ad6eea811)
+
 👉[단일 분리 책임](https://www.notion.so/23b9a48b2e0b4428b26a9af89f743009)
