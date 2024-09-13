@@ -46,7 +46,7 @@
 
 <details>
 <summary><strong>이슈 관리</strong></summary>
-![issue](https://github.com/user-attachments/assets/f74c4fb2-15ac-4a68-b040-5241ce8d1e29)
+<img src="https://github.com/user-attachments/assets/f74c4fb2-15ac-4a68-b040-5241ce8d1e29">
 
 </details>
 
@@ -148,7 +148,7 @@
 
 <details>
 <summary><strong>ERD</strong></summary>
-![BABA](https://github.com/user-attachments/assets/04cf41ff-91ac-4f11-a125-c6ca30743947)
+<img src="https://github.com/user-attachments/assets/04cf41ff-91ac-4f11-a125-c6ca30743947">
 </details>
 
 <details>
@@ -326,14 +326,21 @@ BABA
 <details>
     <summary>구현 의도</summary>
     <div>
-        <div><strong>제목 1</strong></div>
-        <div>내용 1</div>
-        <div><strong>제목 2</strong></div>
-        <div>내용 2</div>
+        <div><strong>게시물과 해시태그의 관계 설계</strong></div>
+        <div>게시물과 해시태그 사이 다대다 관계는 `PostHashTagMap`이라는 중간 매핑 엔티티를 통해 간접적으로 구현하였습니다. 
+            이를 통해 추가적인 속성 저장이나 비즈니스 로직 확장을 기대할 수 있습니다. (ex. 게시글 내 해시태그 추가 시간 등) </div>
+        <br>
+        <div><strong>게시물 상세 조회 및 조회수 증가 기능</strong></div>
+        <div>특정 게시글의 상세 정보를 조회할 때, 해당 게시물에 연결된 해시태그는 없을 수도 있고, 여러 개가 있을 수 있습니다. 
+때문에 이러한 해시태그는 `List` 형태로 함께 반환하도록 하였습니다. 또한, 게시글을 조회할 때마다 조회수가 1씩 증가하는 메소드가 구현되어 있으며, 이는 API 호출 성공 시 자동으로 적용됩니다.</div>
     </div>
 </details>
 <details>
     <summary>구현 코드</summary>
+    <div>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/46" target="_blank">게시물 상세 API</a> </br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/pull/54" target="_blank">게시물 상세 해시태그 추가 코드</a>
+    </div>
 </details>
 
 #### ✨ 게시물 목록 (담당: 유하진)
