@@ -1,4 +1,5 @@
 # BABA
+
 1. [프로젝트 개요](#1-프로젝트-개요)
 2. [프로젝트 관리](#2-프로젝트-관리)
 3. [기술 문서](#3-기술-문서)
@@ -10,37 +11,38 @@
 ## 1. 프로젝트 개요
 
 ### ⚙️기술 스택
+
 ![java](https://img.shields.io/badge/Java-17-blue?logo=java)
 ![spring-boot](https://img.shields.io/badge/SpringBoot-3.2.2-grren?logo=springboot)
 ![mysql](https://img.shields.io/badge/MySQL-latest-blue?logo=mysql)
 
 ### ✔️ 요구사항
+
 [소셜 미디어 통합 Feed 서비스](https://www.notion.so/Feed-a419bee31618497db0c4d5c8486ef8a9?pvs=21)
 
 ### 👩🏻‍💻 팀 구성
 
-| 이름  | 이메일 | 깃허브 | 역할                                     |
-|-----| --- | --- |----------------------------------------|
-| 유하진 | qwertygoov@naver.com | Hajin74 | 게시물 좋아요 API, 게시물 공유 API, 게시물 목록 조회 API |
-| 김성은 | jinna0319@gmail.com | sung-silver | 통계 API                                 |
-| 김연희 | kyh03179@gmail.com | yony-k | 사용자 회원가입 API, 사용자 가입승인 API             |
-| 안소나 | objet_an@naver.com | sonaanweb | 게시물 상세 조회 API                          |
-| 유서정 | bbwest0709@gmail.com | bbwest0709 | 사용자 로그인 API                            |
+| 이름  | 이메일                  | 깃허브         | 역할                                     |
+|-----|----------------------|-------------|----------------------------------------|
+| 유하진 | qwertygoov@naver.com | Hajin74     | 게시물 좋아요 API, 게시물 공유 API, 게시물 목록 조회 API |
+| 김성은 | jinna0319@gmail.com  | sung-silver | 통계 API                                 |
+| 김연희 | kyh03179@gmail.com   | yony-k      | 사용자 회원가입 API, 사용자 가입승인 API             |
+| 안소나 | objet_an@naver.com   | sonaanweb   | 게시물 상세 조회 API                          |
+| 유서정 | bbwest0709@gmail.com | bbwest0709  | 사용자 로그인 API                            |
 
 </br>
 
 ## 2. 프로젝트 관리
 
-
 <details>
 <summary><strong>일정</strong></summary>
 
-| 날짜 | 활동 | 설명 |
-| --- | --- | --- |
-| 24.08.20 ~ 24.08.21 | 협업 기초 마련  | 팀 구성, 팀 규칙, 컨벤션(commit, PR, merge, issue) 정립 |
-| 24.08.22 ~ 24.08.24 | 요구사항 기능 개발 | 담당 기능 구현 |
-| 24.08.25 ~ 24.08.26  | 테스트 코드 및 문서 작성 | 테스트 코드 작성, API 명세서, 프로젝트 페이지, README 작성 |
-| 24.08.27 | 코드 리뷰 및 배포  | 최종 코드 리뷰 및 배포 |
+| 날짜                  | 활동             | 설명                                           |
+|---------------------|----------------|----------------------------------------------|
+| 24.08.20 ~ 24.08.21 | 협업 기초 마련       | 팀 구성, 팀 규칙, 컨벤션(commit, PR, merge, issue) 정립 |
+| 24.08.22 ~ 24.08.24 | 요구사항 기능 개발     | 담당 기능 구현                                     |
+| 24.08.25 ~ 24.08.26 | 테스트 코드 및 문서 작성 | 테스트 코드 작성, API 명세서, 프로젝트 페이지, README 작성      |
+| 24.08.27            | 코드 리뷰 및 배포     | 최종 코드 리뷰 및 배포                                |
 
 </details>
 
@@ -57,7 +59,7 @@
     - **전략**
 
       | Branch Type | Description |
-                              | --- | --- |
+                                    | --- | --- |
       | `dev` | 주요 개발 branch, `main`으로 merge 전 거치는 branch |
       | `feature` | 각자 개발할 branch, 기능 단위로 생성하기, 할 일 issue 등록 후 branch 생성 및 작업 |
 
@@ -123,6 +125,7 @@
       📱 ETC
       <!-- 특이사항 및 예정 개발 일정을 작성해주세요 -->
       ```
+
 </details>
 
 </br>
@@ -133,16 +136,16 @@
 
 [API 명세서 자세히보기](https://www.notion.so/API-197df8e5668f42baa79c96ffac873a47?pvs=21)
 
-| API 명칭 | HTTP 메서드 | 엔드포인트 | 설명 |
-| --- | --- | --- | --- |
-| **사용자 회원가입** | POST | `/api/register` | 새로운 사용자를 등록합니다. |
-| **사용자 로그인** | POST | `/api/login` | 사용자를 로그인시킵니다. |
-| **사용자 로그아웃** | POST | `/api/logout`  | 사용자를 로그아웃시킵니다. |
-| **게시물 목록 조회** | GET | `/api/posts` | 게시물 목록을 조회합니다. |
-| **게시물 상세 조회** | GET | `/api/posts/{id}` | 특정 게시물의 상세 정보를 조회합니다. |
-| **게시물 좋아요** | PUT | `/api/posts/{id}/like` | 게시물에 좋아요를 추가합니다. |
-| **게시물 공유** | PUT | `/api/posts/{id}/share` | 게시물을 공유합니다. |
-| **통계 조회** | GET | `/api/stats` | 게시물 통계 정보를 조회합니다. |
+| API 명칭        | HTTP 메서드 | 엔드포인트                   | 설명                    |
+|---------------|----------|-------------------------|-----------------------|
+| **사용자 회원가입**  | POST     | `/api/register`         | 새로운 사용자를 등록합니다.       |
+| **사용자 로그인**   | POST     | `/api/login`            | 사용자를 로그인시킵니다.         |
+| **사용자 로그아웃**  | POST     | `/api/logout`           | 사용자를 로그아웃시킵니다.        |
+| **게시물 목록 조회** | GET      | `/api/posts`            | 게시물 목록을 조회합니다.        |
+| **게시물 상세 조회** | GET      | `/api/posts/{id}`       | 특정 게시물의 상세 정보를 조회합니다. |
+| **게시물 좋아요**   | PUT      | `/api/posts/{id}/like`  | 게시물에 좋아요를 추가합니다.      |
+| **게시물 공유**    | PUT      | `/api/posts/{id}/share` | 게시물을 공유합니다.           |
+| **통계 조회**     | GET      | `/api/stats`            | 게시물 통계 정보를 조회합니다.     |
 
 </br>
 
@@ -267,6 +270,7 @@ BABA
                         ├── PostServiceTest.java
                         └── RegisterServiceTest.java
 ```
+
 </details>
 
 </br>
@@ -276,11 +280,13 @@ BABA
 ### ⭐ 사용자 인증 시스템
 
 #### ✨ 사용자 회원가입(담당: 김연희)
+
 - 회원가입시 작성한 사용자 정보 유효성 검증 기능 구현
 - 이메일, 계정명 중복 검증 기능 구현
 - Redis를 활용한 임시 회원가입 기능 구현
 - 비밀번호 BCrypt 처리 기능 구현
 - 가입승인 코드 일치 시 정식 회원가입 기능 구현
+
 <details>
     <summary>구현 의도</summary>
     <div>
@@ -302,8 +308,10 @@ BABA
 </details>
 
 #### ✨ 사용자 가입승인(담당: 김연희)
+
 - SMTP를 활용한 가입승인 코드 발송 기능 구현
 - 사용자가 재발송한 가입승인 코드와 Redis 에 저장된 가입승인 코드 비교 기능 구현
+
 <details>
     <summary>구현 코드</summary>
     <div>
@@ -312,17 +320,50 @@ BABA
 </details>
 
 #### ✨ 사용자 로그인(담당: 유서정)
-- 스프링 시큐리티 + JWT 방식을 사용한 로그인 기능 구현
-- 핸들러를 이용한 필터체인 내 예외처리
-- refreshToken을 활용한 토큰 재발급 기능 구현
+
+- 스프링 시큐리티 기능 구현
+- JWT 인증
+- 토큰 발급 및 관리
+- 토큰 검증 및 핸들러 커스텀 예외처리
+- RefreshToken 활용한 토큰 재발급
+
+<details>
+    <summary>구현 의도</summary>
+    <div>
+        <div><strong>보안성 향상</strong></div>
+        <div>스프링 시큐리티를 사용함으로써, 로그인 및 인증 처리의 복잡성을 줄이고, 잘 정의된 보안 기능을 통해 시스템의 전반적인 보안성을 향상시켰습니다. 
+            또한, 스프링 시큐리티의 예외 처리 핸들러를 커스텀하여 보안 관련 예외를 중앙에서 일관되게 관리하였습니다.</div>
+        <br>
+        <div><strong>인증 및 인가 강화</strong></div>
+        <div>JWT 토큰을 사용하여 세션 관리와 사용자 인증을 보다 안전하게 처리하도록 구현하였습니다.</div>
+        <br>
+        <div><strong>효율적 관리</strong></div>
+        <div>RefreshToken은 Redis에 저장하여 빠르고 효율적인 접근이 가능하도록 했습니다. 
+            또한, 사용자가 로그인을 유지하려면 RefreshToken을 사용하여 새로운 AccessToken을 발급받을 수 있습니다. 이를 통해 보안성을 높이면서도 지속적인 인증을 안전하게 관리할 수 있습니다.</div>
+    </div>
+</details>
+<details>
+    <summary>구현 코드</summary>
+    <div>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/tree/dev/src/main/java/org/example/baba/common/security" target="_blank">Security</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/tree/dev/src/test/java/org/example/baba/common/security" target="_blank">Security 테스트</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/tree/dev/src/main/java/org/example/baba/common/utils" target="_blank">JWT</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/tree/dev/src/test/java/org/example/baba/common/utils/jwt" target="_blank">JWT 테스트</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/test/java/org/example/baba/common/redis/RedisRepositoryTest.java" target="_blank">Redis 테스트</a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/test/java/org/example/baba/common/annotation/WithUser.java" target="_blank">Security와 관련된 테스트를 위한 커스텀 애너테이션 </a></br>
+        <a href="https://github.com/wanted-pre-onboarding-backend-team-7/BABA/blob/dev/src/test/java/org/example/baba/common/annotation/WithMockCustomUserSecurityContextFactory.java" target="_blank">Security와 관련된 테스트를 위한 보안 컨텍스트 팩토리 </a></br>
+    </div>
+</details>
 
 </br>
 
 ### ⭐ RESTful API
 
 #### ✨ 게시물 상세 (담당: 안소나)
+
 - 특정 게시글의 모든 필드 값을 확인할 수 있는 페이지
 - API 호출 시, 해당 게시물 조회수가 1 증가하는 기능 구현
+
 <details>
     <summary>구현 의도</summary>
     <div>
@@ -344,8 +385,10 @@ BABA
 </details>
 
 #### ✨ 게시물 목록 (담당: 유하진)
+
 - 여러 쿼리 파라미터를 받아 게시물 목록을 조회합니다.
 - 해시태그, 검색기준, 검색키워드, 정렬기준, 정렬방향, SNS 타입, 페이지 번호, 페이지 크기를 쿼리 파라미터로 받습니다.
+
 <details>
     <summary>구현 의도</summary>
     <div>
@@ -361,10 +404,11 @@ BABA
     </div>
 </details>
 
-
 #### ✨ 게시물 좋아요, 게시물 공유 (담당: 유하진)
+
 - 게시물 좋아요 수를 1 증가하는 기능을 구현했습니다.
 - 게시물 공유 수를 1 증가하는 기능을 구현했습니다.
+
 <details>
     <summary>구현 의도</summary>
     <div>
@@ -385,8 +429,10 @@ BABA
 </details>
 
 ### ⭐ 통계(담당: 김성은)
+
 - 기간 내 해당 해시태그가 포함된 게시물을 일자별로 제공
 - 기간 내 해당 해시태그가 포함된 게시물을 시간별로 제공
+
 <details>
     <summary>구현 의도</summary>
     <div>
