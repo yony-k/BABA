@@ -2,7 +2,7 @@ name: build-test
 
 on:
   push:
-    branches: [ "deploy/CI-CD" ]
+    branches: [ "deploy/ci-cd" ]
 
 jobs:
   build:
