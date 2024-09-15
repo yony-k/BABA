@@ -65,5 +65,5 @@ jobs:
           docker pull ${{ secrets.DOCKER_USERNAME }}/baba:latest
           docker stop $(docker ps -q --filter 'name=baba')
           docker rm $(docker ps -a -q --filter 'name=baba' )
-          docker run -d --log-driver=syslog -p 8080:8080 --name baba ${{ secrets.DOCKER_USERNAME }}/baba:latest --network yonyk-network
+          docker run -d --log-driver=syslog -p 8080:8080 --name baba --network yonyk-network ${{ secrets.DOCKER_USERNAME }}/baba:latest 
           docker image prune -a -f
