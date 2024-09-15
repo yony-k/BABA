@@ -20,7 +20,7 @@ spring:
     show-sql: true
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
   mail:
     host: smtp.gmail.com
