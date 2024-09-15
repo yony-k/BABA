@@ -15,12 +15,12 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     defer-datasource-initialization: true
     show-sql: true
   data:
     redis:
-      host: localhost
+      host: ${REDIS_HOST}
       port: 6379
   mail:
     host: smtp.gmail.com
@@ -48,4 +48,4 @@ cookie:
   limit-time: 259200
   accepted-url: '/api/auth/reissue'
   cookie-name: Refresh
-  domain: localhost
+  domain: ${COOKIE_DOMAIN}
